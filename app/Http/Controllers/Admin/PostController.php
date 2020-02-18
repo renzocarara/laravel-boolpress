@@ -49,9 +49,27 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Post $post)
     {
-        $post = Post::find($id);
+        // ----------- DEPENDENCY INJECTION ------------
+        // questo meccanismo mi permette di non dover chiamare la find(),
+        // perchè viene IMPLICITAMENTE chiamata da Laravel.
+        // Io gli passo un id ma Laravel capisce che in realtà io voglio l'oggetto associato a quell'id.
+        // Alla funzione show() metto come parametro in ingresso, non più un semplice id,
+        // ma un oggetto di classe Post. La funzione show() viene comunque invocata passandogli
+        // un 'id' (cioè un numero) ma avendo messo nella sua dichiarazione come parametro in ingresso
+        // un oggetto Post, Laravel IMPLICITAMENTE chiamerà la find() e andrà a recuperare l'oggetto
+        // identificato da quell'id.
+        // Poi passo alla view 'show' direttamente il parametro '$post' di classe Post
+        // che ho dichiarato in ingresso alla funzione stessa.
+        // ATTENZIONE: il parametro deve avere lo stesso nome del Model (cioè 'post'),
+        // ----------- DEPENDENCY INJECTION ------------
+
+        // questo metodo recupera i dati di un singolo post dal DB e poi ritorna una view che
+        // riceve in ingresso quello specifico post
+        // il metodo riceve in ingresso l'id del post da recuperare
+
+        // $post = Post::find($id);
         return view('admin.posts.show', ['post' => $post]);
     }
 

@@ -1,6 +1,6 @@
 {{-- url: 'admin'
 nome route: 'admin.home'
-nome view: 'home'
+nome view: 'home' (nella cartella views/admin/)
 controller:  'HomeController' (nella cartella Controllers\Admin\)
 metodo che la richiama: 'index'  --}}
 
@@ -10,9 +10,10 @@ metodo che la richiama: 'index'  --}}
 {{-- cioè ci arrivo dalla view preconfezionata di login di Laravel --}}
 {{-- App\Http\Controllers\Auth\LoginController@login --}}
 
-
 {{-- utilizza una barra di navigazione 'privata' ('admin-navbar') differente da quella pubblica ('public-navbar')--}}
-{{-- entrmbe i file delle navbar sono sotto views/layouts/partials/ --}}
+{{-- entrambi i file delle navbar sono sotto views/layouts/partials/ --}}
+{{-- dalla navbar, cliccando sul link Gestione Posts, attivo la route 'admin.posts.index' --}}
+{{-- richiamata dal metodo 'index' del controller 'PostController' --}}
 
 @extends('layouts.admin')
 
@@ -30,7 +31,7 @@ metodo che la richiama: 'index'  --}}
                     </div>
                     @endif
 
-                    Bacheca amministrazione, da qui, tu amministartore, puoi manipolare il tuo DB!
+                    Da qui, tu amministartore, puoi manipolare il DB!
                 </div>
             </div>
         </div>
