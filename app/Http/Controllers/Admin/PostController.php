@@ -79,9 +79,13 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Post $post)
     {
-        //
+        // come per la show(), uso la DEPENDENCY INJECTION. Chiamo questo metodo
+        // passandolgi un id, ma ottengo un oggetto, che Laravel recupera automaticamente,
+        // dal DB tramite l'id che gli passo io, e lo mette nel parametro $post,
+        // che poi io uso per chiamare la view
+        // return view('admin.posts.edit',  ['post_to_be_edited' => $post]);
     }
 
     /**
