@@ -15,6 +15,9 @@ class PostController extends Controller
      */
     public function index()
     {
+        // questo metodo recupera tutti i posts dal DB e poi ritorna una view che
+        // riceve in ingresso la collection dei posts e la visualizza in pagina
+
         $posts = Post::all();
         return view('admin.posts.index', ['posts' => $posts]);
     }
