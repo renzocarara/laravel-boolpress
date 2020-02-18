@@ -14,7 +14,7 @@
                 @forelse ($posts as $post)
                 {{-- al click sul link richiamo la route pubblica 'blog.show' che invoca --}}
                 {{-- il metodo show() che riceve in ingresso il parametro $slug e richiama --}}
-                {{-- a sua volta la view 'single-post' --}}
+                {{-- a sua volta la view 'show' --}}
                 <li><a href="{{ route('blog.show', [ 'slug' => $post->slug ]) }}">
                         {{ $post->title }}
                     </a></li>
