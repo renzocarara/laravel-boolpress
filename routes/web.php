@@ -16,7 +16,7 @@
 // +-----------+-------------------------+---------------------+----------------------------------------------------+--------------+
 // | GET|HEAD  | /                       | public.home         | App\Http\Controllers\HomeController@index          | web          |
 // +-----------+-------------------------+---------------------+----------------------------------------------------+--------------+
-// HomeController pubblico (in cartella Controllers), metodo 'index' che ritorna la view 'homepage'
+// HomeController pubblico (in cartella Controllers), metodo 'index' che ritorna la view 'home'
 Route::get('/', 'HomeController@index')->name('public.home'); // pagina iniziale pubblica
 
 // +-----------+-------------------------+---------------------+----------------------------------------------------+--------------+
@@ -24,7 +24,7 @@ Route::get('/', 'HomeController@index')->name('public.home'); // pagina iniziale
 // +-----------+-------------------------+---------------------+----------------------------------------------------+--------------+
 // | GET|HEAD  | blog                    | blog                | App\Http\Controllers\PostController@index          | web          |
 // +-----------+-------------------------+---------------------+----------------------------------------------------+--------------+
-// PostController pubblico (in cartella Controllers), metodo 'index'
+// PostController pubblico (in cartella Controllers), metodo 'index' che ritorna la view 'index'
 Route::get('/blog', 'PostController@index')->name('blog'); // sottopagina blog pubblica che visualizza elenco posts
 
 // +-----------+-------------------------+---------------------+----------------------------------------------------+--------------+
@@ -32,7 +32,7 @@ Route::get('/blog', 'PostController@index')->name('blog'); // sottopagina blog p
 // +-----------+-------------------------+---------------------+----------------------------------------------------+--------------+
 // | GET|HEAD  | blog/{slug}             | blog.show           | App\Http\Controllers\PostController@show           | web          |
 // +-----------+-------------------------+---------------------+----------------------------------------------------+--------------+
-// PostController pubblico (in cartella Controllers), metodo 'show'
+// PostController pubblico (in cartella Controllers), metodo 'show' che ritorna la view 'show'
 Route::get('/blog/{slug}', 'PostController@show')->name('blog.show'); // sottopagina pubblica che visualizza 1 singolo post
 
 Auth::routes();

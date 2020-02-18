@@ -1,4 +1,4 @@
-{{-- view 'posts' pubblica per visualizzare elenco posts --}}
+{{-- view 'index' pubblica per visualizzare elenco posts --}}
 {{-- riceve in ingresso la collection di posts letta dal DB dal metodo 'index', --}}
 {{-- del controller pubblico 'PostController' --}}
 @extends('layouts.public')
@@ -7,7 +7,7 @@
 <div class="container">
     <div class="row">
         <div class="col-12">
-            <h1>Lista di tutti i post</h1>
+            <h1>Tutti i post</h1>
             <ul>
                 {{-- scorro i posts e ne visualizzo solo i titoli --}}
                 {{-- rendo i titoli dei link cliccabili per avere il dettaglio completo del post --}}

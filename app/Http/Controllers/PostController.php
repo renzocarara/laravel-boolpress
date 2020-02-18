@@ -8,12 +8,16 @@ use App\Post;
 class PostController extends Controller
 {
     public function index() {
+        // leggo tutti i post dal DB
         $posts = Post::all();
-        return view('posts', ['posts' => $posts]);
+        // ritorna una view con l'elenco di tutti i post
+        return view('public.posts.index', ['posts' => $posts]);
     }
 
     public function show($slug) {
+
         $post = Post::where('slug', $slug)->first();
-        return view('single-post', ['post' => $post]);
+        // ritorna una view con i dati di un singolo post
+        return view('public.posts.show', ['post' => $post]);
     }
 }

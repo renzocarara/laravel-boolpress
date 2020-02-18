@@ -1,4 +1,4 @@
-{{-- view 'single-post' pubblica per visualizzare un singolo post --}}
+{{-- view 'show' pubblica per visualizzare un singolo post --}}
 {{-- riceve in ingresso il parametro 'post' che corrisponde allo slug del post cliccato dall'utente --}}
 
 @extends('layouts.public')

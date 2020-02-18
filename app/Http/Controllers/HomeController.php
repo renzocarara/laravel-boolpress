@@ -8,7 +8,7 @@ class HomeController extends Controller
 {
     public function index() {
 
-        // ritorna la view 'homepage', pagina iniziale pubblica
-        return view('homepage');
+        // ritorna la view 'home', pagina iniziale pubblica
+        return view('public.home');
     }
 }

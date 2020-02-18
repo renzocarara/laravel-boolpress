@@ -1,3 +1,4 @@
+{{-- visualizza i dati di un singolo post --}}
 @extends('layouts.admin')
 
 @section('content')
