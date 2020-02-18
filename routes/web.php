@@ -52,8 +52,8 @@ Auth::routes();
 // +-----------+-------------------------+---------------------+----------------------------------------------------+--------------+
 // queste rotte private (accesibili cioè solo da utente autenticato),
 // hanno i controllers corrispondenti (HomeController e PostController) nella cartella Controllers/Admin/
-// Hanno tutte l'url che cominciano con 'admin', hanno un name che comincia con 'admin.'
-// la admin.home è quella principale, che ritorna la view 'home'
+// Hanno tutte l'url che comincia con 'admin', hanno un name che comincia con 'admin.'
+// la 'admin.home' è quella principale, che ritorna la view 'home'
 // le altre (7) sono quelle di default per implementare le CRUD
 Route::middleware('auth')->prefix('admin')->namespace('Admin')->name('admin.')->group(function() {
     Route::get('/', 'HomeController@index')->name('home'); // route principale del sito back-office
