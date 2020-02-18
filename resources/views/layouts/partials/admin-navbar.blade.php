@@ -13,7 +13,7 @@
             <!-- Left Side Of Navbar -->
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link {{ Route::currentRouteName() == 'admin.posts.index' ? 'active' : '' }}" href="{{ route('admin.posts.index') }}">Gestione post</a>
+                    <a class="nav-link {{ Route::currentRouteName() == 'admin.posts.index' ? 'active' : '' }}" href="{{ route('admin.posts.index') }}">Gestione Posts</a>
                 </li>
             </ul>
 
