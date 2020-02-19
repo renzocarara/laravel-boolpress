@@ -172,8 +172,14 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Post $post)
     {
-        //
+        // a questo metodo non è associata nessuna view,
+        // la funzione esegue una cancellazione di un record dal DB e poi fa una REDIRECT
+        // verso la pagina principale
+        // NOTA: anche qui come per la show(), edit(), update(), uso la DEPENDENCY INJECTION
+
+        $post->delete();
+        return redirect()->route('admin.posts.index');
     }
 }
