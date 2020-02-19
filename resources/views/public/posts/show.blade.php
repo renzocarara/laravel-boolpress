@@ -5,14 +5,15 @@
 
 @section('content')
 <div class="container">
-
-    <div class="col-12">
-        <div class="row mt-4">
-            <h1>Post</h1>
+    <div class="row mt-4">
+        <div class="col-12">
+            <h1 class="d-inline-block mb-5">Post</h1>
+            <a class="btn btn-primary float-right" href="{{ route('blog') }}">Home</a>
         </div>
     </div>
-    <div class="col-12">
-        <div class="row">
+
+    <div class="row">
+        <div class="col-12">
             <div class="card w-75" style="width: 18rem;">
                 <div class="card-body">
                     <h5 class="card-title">Titolo: <strong>{{ $post->title }} </strong></h5>
@@ -24,7 +25,6 @@
             </div>
         </div>
     </div>
+</div>
 
-</div>
-</div>
 @endsection
