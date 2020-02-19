@@ -9,7 +9,9 @@
 
     <section class="container">
 
-        <h2 class="text-center">Modifica post</h2>
+        <h2 class="d-inline-block">Modifica post</h2>
+        <a class="btn btn-primary float-right" href="{{ route('admin.posts.index') }}">Home</a>
+
         <div class="d-flex">
             {{-- al submit chiamo la route 'store' che non corrisponde ad una view da visualizzare, --}}
             {{-- ma è solo del codice che elabora i dati del form e crea un oggetto Post da scrivere nel DB --}}
