@@ -138,7 +138,7 @@ class PostController extends Controller
         // passandolgi un id, ma ottengo un oggetto, che Laravel recupera automaticamente,
         // dal DB tramite l'id che gli passo io, e lo mette nel parametro $post,
         // che poi io uso per chiamare la view
-        // return view('admin.posts.edit',  ['post_to_be_edited' => $post]);
+        return view('admin.posts.edit',  ['post_to_be_edited' => $post]);
     }
 
     /**
@@ -148,9 +148,22 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Post $post)
     {
-        //
+        // questo metodo viene chiamato dal controller quando l'utente preme sull'invio
+        // del FORM sulla view 'edit', non c'è una view che viene ritornata e che
+        // l'utente può vedere, è solo uno script che serve per aggiornare i dati del DB,
+        // dopodichè viene fatta una REDIRECT verso la rotta 'admin.posts.index' (view principale)
+
+        // metto i dati ricevuti tramite il parametro $request in una variabile
+        $form_data_received=$request->all();
+
+        // aggiorno il record nel DB referenziandolo con il parametro $post in ingresso alla funzione
+        // (DEPENDANCY INJECTION: viene fatto un 'match' con l'id che ho passato al momento dell'invocazione)
+        $post->update($form_data_received);
+
+        // faccio una REDIRECT vetso la rotta 'index'
+        return redirect() -> route('admin.posts.index');
     }
 
     /**

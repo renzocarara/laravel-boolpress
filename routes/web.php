@@ -35,7 +35,9 @@ Route::get('/blog', 'PostController@index')->name('blog'); // sottopagina blog p
 // PostController pubblico (in cartella Controllers), metodo 'show' che ritorna la view 'show'
 Route::get('/blog/{slug}', 'PostController@show')->name('blog.show'); // sottopagina pubblica che visualizza 1 singolo post
 
-Auth::routes();
+// specifico che le rotte per la registrazione non devono essere generate
+// (di default fanno parte di tutte quelle generate automaticamente da Laravel per la gestione dell'autenticazione)
+Auth::routes(['register => false']);
 
 // ROTTE PRIVATE:
 // +-----------+-------------------------+---------------------+----------------------------------------------------+--------------+

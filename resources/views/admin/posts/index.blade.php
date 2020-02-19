@@ -42,11 +42,11 @@
                              <a class="btn btn-dark" href="{{ route('admin.posts.show', ['post' => $post->id ]) }}">
                                  Visualizza
                              </a>
-                             {{-- <a class="btn btn-dark" href="{{ route('admin.posts.edit', ['post' => $post->id ]) }}">
-                             Modifica
+                             <a class="btn btn-secondary" href="{{ route('admin.posts.edit', ['post' => $post->id ]) }}">
+                                 Modifica
                              </a>
-                             <a class="btn btn-dark" href="{{ route('admin.posts.show', ['post' => $post->id ]) }}">
-                                 Elimina
+                             {{-- <a class="btn btn-danger" href="{{ route('admin.posts.show', ['post' => $post->id ]) }}">
+                             Elimina
                              </a> --}}
                          </td>
                      </tr>
