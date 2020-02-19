@@ -4,7 +4,7 @@
  controller:  'PostController' (nella cartella Controllers\Admin\)
  metodo che la richiama: 'index'  --}}
 
- {{-- Questa pagina visualizza tutti i posts recuperati dal DB}}
+ {{-- Questa pagina visualizza tutti i posts recuperati dal DB --}}
  {{-- la view riceve infatti un parametro in ingresso (post) che rappresenta la collection --}}
  {{-- dei dati letti dal DB (dal metodo PostController@index) --}}
  {{-- Tramite i pulsanti nella colonna Azioni, sarà possibile eseguire delle CRUD sui posts --}}
@@ -15,7 +15,8 @@
  <div class="container">
      <div class="row">
          <div class="col-12">
-             <h1>Tutti i post</h1>
+             <h1 class="d-inline-block mb-5">Tutti i post</h1>
+             <a class="btn btn-primary float-right" href="{{ route('admin.posts.create') }}">Crea nuovo Post</a>
          </div>
      </div>
      <div class="row">
@@ -38,9 +39,15 @@
                          <td>{{ $post->slug }}</td>
                          <td>{{ $post->author }}</td>
                          <td>
-                             <a class="btn btn-info" href="{{ route('admin.posts.show', ['post' => $post->id ]) }}">
+                             <a class="btn btn-dark" href="{{ route('admin.posts.show', ['post' => $post->id ]) }}">
                                  Visualizza
                              </a>
+                             {{-- <a class="btn btn-dark" href="{{ route('admin.posts.edit', ['post' => $post->id ]) }}">
+                             Modifica
+                             </a>
+                             <a class="btn btn-dark" href="{{ route('admin.posts.show', ['post' => $post->id ]) }}">
+                                 Elimina
+                             </a> --}}
                          </td>
                      </tr>
                      @empty

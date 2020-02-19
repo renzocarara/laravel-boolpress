@@ -1,10 +1,15 @@
 <?php
 
+// aggiungo il namespace corretto (quindi Admin)
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Post;
+
+// aggiungo questa use per poter usare la funzione str()
+use Illuminate\Support\Str;
+
 
 class PostController extends Controller
 {
@@ -30,6 +35,7 @@ class PostController extends Controller
     public function create()
     {
         //
+        return view('admin.posts.create');
     }
 
     /**
@@ -40,7 +46,54 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // questo metodo viene chiamato dal controller quando l'utente preme sull'invio
+        // del FORM sulla view 'create', non c'è una view che viene ritornata e che
+        // l'utente può vedere, è solo uno script che serve per scrivere nel DB i dati inseriti dall'utente,
+        // dopodichè viene fatta una REDIRECT verso la rotta 'admin.posts.index' (view principale)
+
+        // metto i dati ricevuti tramite il parametro $request in una variabile
+        $form_data_received=$request->all();
+
+        // creo un nuovo oggetto di classe Post, da scrivere poi nel DB
+        $new_post = new Post();
+
+        // valorizzo il nuovo oggetto con i dati ricevuti (ad eccezione dello 'slug' che devo calcolarlo io)
+        $new_post->fill($form_data_received);
+
+        // calcolo uno slug univoco, verificando se già esiste quello che volgio scrivere
+        // ricavo lo slug teorico che dovrei scrivere, in base al titolo del post
+        $slug_from_title = Str::slug($form_data_received['title']);
+        // mi salvo lo slug 'potenziale' in una variabile
+        $slug_to_be_written = $slug_from_title;
+        // ora verifico che nel db non esista uno slug uguale
+        $slug_already_used = Post::where('slug', $slug_to_be_written)->first();
+
+        // uso un contatore da concatenare al nome dello slug per renderlo univoco
+        // comincio da 1 mapotrei aver bisogno di incrementarlo più volte se lo slug
+        // che voglio scrivere già esiste nel DB
+        $slug_write_attempts = 1;
+
+        // esco dal 'while' quando ho verificato che lo slug che voglio scrivere,
+        // non è già presente nel DB e posso quindi utilizzarlo
+        while(!empty($slug_already_used)) {
+            // costruisco lo slug che voglio scrivere
+            $slug_to_be_written = $slug_from_title . '-' . $slug_write_attempts;
+            // lo cerco nel DB per sapere se è già usato
+            $slug_already_used = Post::where('slug', $slug_to_be_written)->first();
+            // incremento il contatore che mi servirà eventualmente per costruire un altro slug
+            // se quello appena creato esiste già nel DB
+            $slug_write_attempts++;
+        }
+
+        // scrivo il mio slug UNIVOCO nell'oggetto da salvare nel DB
+        $new_post->slug = $slug_to_be_written;
+
+        // alla fine scrivo il nuovo oggetto nel DB
+        $new_post->save();
+
+        // faccio una REDIRECT vetso la rotta 'index'
+        return redirect() -> route('admin.posts.index');
+
     }
 
     /**

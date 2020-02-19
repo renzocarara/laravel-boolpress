@@ -16,8 +16,9 @@ class PostController extends Controller
 
     public function show($slug) {
 
+        // cerco nella colonna 'slug' della mia tabella del DB, il post con slug uguale al parametro ricevuto
         $post = Post::where('slug', $slug)->first();
-        // ritorna una view con i dati di un singolo post
+        // ritorna una view con i dati del singolo post ricercato
         return view('public.posts.show', ['post' => $post]);
     }
 }
