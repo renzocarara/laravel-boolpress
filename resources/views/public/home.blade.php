@@ -4,8 +4,11 @@
 @section('content')
 <div class="container">
     <div class="row">
-        <div class="col-12">
-            <h1>Benvenuto su BoolPress Blog!</h1>
+        <div id="home-column" class="col-12 position-relative">
+            <div class="overlay"></div>
+            <div id="home-welcome-wrapper" class="d-flex text-white">
+                <h1 class="m-auto">Benvenuto su BoolPress Blog!</h1>
+            </div>
         </div>
     </div>
 </div>

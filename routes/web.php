@@ -25,7 +25,7 @@ Route::get('/', 'HomeController@index')->name('public.home'); // pagina iniziale
 // | GET|HEAD  | blog                    | blog                | App\Http\Controllers\PostController@index          | web          |
 // +-----------+-------------------------+---------------------+----------------------------------------------------+--------------+
 // PostController pubblico (in cartella Controllers), metodo 'index' che ritorna la view 'index'
-Route::get('/blog', 'PostController@index')->name('blog'); // sottopagina blog pubblica che visualizza elenco posts
+Route::get('/blog/{from}/{direction}', 'PostController@index')->name('blog'); // sottopagina blog pubblica che visualizza elenco posts
 
 // +-----------+-------------------------+---------------------+----------------------------------------------------+--------------+
 // | Method    | URI                     | Name                | Action                                             | Middleware   |
