@@ -14,12 +14,14 @@
 
     <div class="row">
         <div class="col-12">
-            <div class="card w-75" style="width: 18rem;">
+            <div class="card w-75 border-primary" style="width: 18rem;">
+                <h5 class="card-header border-primary alert-primary">Titolo: <strong>{{ $post->title }} </strong></h5>
                 <div class="card-body">
-                    <h5 class="card-title">Titolo: <strong>{{ $post->title }} </strong></h5>
-                    <h6 class="card-subtitle mb-2 text-muted">Autore: <strong>{{ $post->author }} </strong></h6>
+                    <h6 class="card-subtitle mb-2">Autore: <strong>{{ $post->author }} </strong></h6>
+                    <hr>
                     <p class="card-text">Contenuto: <strong>{{ $post->content }} </strong></p>
-                    <p class="card-text">Inserito il: <strong>{{ $post->created_at }}</strong></p>
+                    <hr>
+                    <p class="card-text mb-0">Inserito il: <strong>{{ $post->created_at }}</strong></p>
                     <p class="card-text">Ultimo aggiornamento: <strong>{{ $post->updated_at }}</strong></p>
                 </div>
             </div>
