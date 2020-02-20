@@ -8,7 +8,7 @@
     <div class="row mt-4">
         <div class="col-12">
             <h1 class="d-inline-block mb-5">Post</h1>
-            {{-- <a class="btn btn-primary float-right" href="{{ route('blog', ['from' => 0, 'direction' => 'next']) }}">Blog</a> --}}
+            {{-- <a class="btn btn-primary float-right" href="{{ route('blog', 0) }}">Blog</a> --}}
         </div>
     </div>
 

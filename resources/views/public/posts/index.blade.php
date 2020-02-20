@@ -7,7 +7,7 @@
 <div class="container">
     <div class="row mt-4">
         <div class="col-12">
-            <h1>Tutti i post</h1>
+            <h1>Tutti i post (<strong>{{ $total_posts_in_DB }}</strong>)</h1>
 
             @php
             // flag che mi indica che ho già visualizzato l'ultima pagina di post
@@ -16,12 +16,12 @@
 
             <ul>
                 {{-- scorro i posts e ne visualizzo solo i titoli --}}
-                @forelse ($posts as $post)
+                @forelse ($posts_in_the_page as $post)
                 {{-- rendo i titoli dei link cliccabili per avere il dettaglio completo del post --}}
-                {{-- al click sul link richiamo la route pubblica 'blog.show' che invoca --}}
+                {{-- al click sul link richiamo la route pubblica 'post.show' che invoca --}}
                 {{-- il metodo show() che riceve in ingresso il parametro $slug e richiama --}}
                 {{-- a sua volta la view 'show' --}}
-                <li><a href="{{ route('blog.show', [ 'slug' => $post->slug ]) }}">
+                <li><a href="{{ route('post.show', [ 'slug' => $post->slug ]) }}">
                         {{ $post->title }}
                     </a>
                 </li>
@@ -29,7 +29,7 @@
                 @empty
                 <li>
                     <div class="alert alert-warning" role="alert">
-                        Non ci sono post!
+                        ATTENZIONE: non ci sono post da visualizzare!
                     </div>
                 </li>
                 @php
@@ -41,13 +41,13 @@
 
             <nav aria-label="Page navigation">
                 <ul class="pagination">
-                    {{-- se sono sulla prima pagina dei post disabilito il pulsante 'previous' --}}
-                    <li class="page-item {{ $from == 0 ? 'disabled' : '' }}">
-                        <a class="page-link" href="{{ route('blog', ['from' => ($from - 3), 'direction' => 'previous']) }}">Previous</a>
+                    {{-- se sono sulla prima pagina disabilito il pulsante 'previous' --}}
+                    <li class="page-item {{ $extract_starting_from == 0 ? 'disabled' : '' }}">
+                        <a class="page-link" href="{{ route('blog', $extract_starting_from - $max_posts_per_page) }}">Previous</a>
                     </li>
                     {{-- se non ci sono post da visualizzare disabilito il pulsante 'next' --}}
-                    <li class="page-item {{ ($no_post_to_display==true) ? 'disabled' : '' }}">
-                        <a class="page-link" href="{{ route('blog', ['from' => ($from + 3), 'direction' => 'next']) }}">Next</a>
+                    <li class="page-item {{ ($no_post_to_display == true) ? 'disabled' : '' }}">
+                        <a class="page-link" href="{{ route('blog', $extract_starting_from + $max_posts_per_page) }}">Next</a>
                     </li>
                 </ul>
             </nav>

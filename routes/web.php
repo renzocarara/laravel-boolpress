@@ -25,15 +25,15 @@ Route::get('/', 'HomeController@index')->name('public.home'); // pagina iniziale
 // | GET|HEAD  | blog                    | blog                | App\Http\Controllers\PostController@index          | web          |
 // +-----------+-------------------------+---------------------+----------------------------------------------------+--------------+
 // PostController pubblico (in cartella Controllers), metodo 'index' che ritorna la view 'index'
-Route::get('/blog/{from}/{direction}', 'PostController@index')->name('blog'); // sottopagina blog pubblica che visualizza elenco posts
+Route::get('/blog/{from}', 'PostController@index')->name('blog'); // sottopagina blog pubblica che visualizza elenco posts
 
 // +-----------+-------------------------+---------------------+----------------------------------------------------+--------------+
 // | Method    | URI                     | Name                | Action                                             | Middleware   |
 // +-----------+-------------------------+---------------------+----------------------------------------------------+--------------+
-// | GET|HEAD  | blog/{slug}             | blog.show           | App\Http\Controllers\PostController@show           | web          |
+// | GET|HEAD  | post/{slug}             | post.show           | App\Http\Controllers\PostController@show           | web          |
 // +-----------+-------------------------+---------------------+----------------------------------------------------+--------------+
 // PostController pubblico (in cartella Controllers), metodo 'show' che ritorna la view 'show'
-Route::get('/blog/{slug}', 'PostController@show')->name('blog.show'); // sottopagina pubblica che visualizza 1 singolo post
+Route::get('/post/{slug}', 'PostController@show')->name('post.show'); // sottopagina pubblica che visualizza 1 singolo post
 
 // specifico che le rotte per la registrazione non devono essere generate
 // (di default fanno parte di tutte quelle generate automaticamente da Laravel per la gestione dell'autenticazione)
