@@ -9,11 +9,6 @@
         <div class="col-12">
             <h1>Tutti i post (<strong>{{ $total_posts_in_DB }}</strong>)</h1>
 
-            @php
-            // flag che mi indica che ho già visualizzato l'ultima pagina di post
-            $no_post_to_display = false;
-            @endphp
-
             <ul>
                 {{-- scorro i posts e ne visualizzo solo i titoli --}}
                 @forelse ($posts_in_the_page as $post)
@@ -25,17 +20,12 @@
                         {{ $post->title }}
                     </a>
                 </li>
-
                 @empty
                 <li>
                     <div class="alert alert-warning" role="alert">
                         ATTENZIONE: non ci sono post da visualizzare!
                     </div>
                 </li>
-                @php
-                // setto il flag ad indicare che non ci sono più post da visualizzare
-                $no_post_to_display = true;
-                @endphp
                 @endforelse
             </ul>
 
@@ -46,7 +36,8 @@
                         <a class="page-link" href="{{ route('blog', $extract_starting_from - $max_posts_per_page) }}">Previous</a>
                     </li>
                     {{-- se non ci sono post da visualizzare disabilito il pulsante 'next' --}}
-                    <li class="page-item {{ ($no_post_to_display == true) ? 'disabled' : '' }}">
+                    {{-- <li class="page-item {{ ($no_post_to_display == true) ? 'disabled' : '' }}"> --}}
+                    <li class="page-item {{ ($total_posts_in_DB<=$extract_starting_from+$max_posts_per_page) ? 'disabled' : '' }}">
                         <a class="page-link" href="{{ route('blog', $extract_starting_from + $max_posts_per_page) }}">Next</a>
                     </li>
                 </ul>
