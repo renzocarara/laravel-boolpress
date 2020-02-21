@@ -7,7 +7,8 @@
 <div class="container">
     <div class="row mt-4">
         <div class="col-12">
-            <h1>Tutti i post (<strong>{{ $total_posts_in_DB }}</strong>)</h1>
+            <h1 class="d-inline-block">Tutti i post (<strong>{{ $total_posts_in_DB }}</strong>)</h1>
+            <h4 class="d-inline-block float-right">Pagina <strong>{{ $page_num }}</strong></h4>
 
             {{-- scorro i posts e ne visualizzo solo i titoli --}}
             @forelse ($posts_in_the_page as $post)
