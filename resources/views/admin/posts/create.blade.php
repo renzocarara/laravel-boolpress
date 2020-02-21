@@ -15,21 +15,29 @@
         <div class="d-flex">
             {{-- al submit chiamo la route 'store' che non corrisponde ad una view da visualizzare, --}}
             {{-- ma è solo del codice che elabora i dati del form e crea un oggetto Post da scrivere nel DB --}}
-            <form class="w-100" method="post" action="{{ route('admin.posts.store') }}">
+
+            {{-- NOTA: perchè il form possa gestire anche i file bisogna aggiungere questo attributo:
+                 enctype="multipart-form-data" --}}
+            <form class="w-100" enctype="multipart/form-data" method="post" action="{{ route('admin.posts.store') }}">
 
                 @csrf
 
                 <div class="form-group">
-                    <label for="title-id">Titolo:</label>
-                    <input type="text" class="form-control" id="title-id" name="title" placeholder="titolo del post" required>
+                    <label for="title">Titolo:</label>
+                    <input type="text" class="form-control" id="title" name="title" placeholder="titolo del post" required>
                 </div>
                 <div class="form-group">
-                    <label for="author-id">Autore:</label>
-                    <input type="text" class="form-control" id="author-id" name="author" placeholder="nome dell'autore" required>
+                    <label for="author">Autore:</label>
+                    <input type="text" class="form-control" id="author" name="author" placeholder="nome dell'autore" required>
                 </div>
                 <div class="form-group">
-                    <label for="text-id">Testo:</label>
-                    <textarea class="form-control" id="text-id" rows=8 name="content" placeholder="scrivi qui il tuo articolo..." required></textarea>
+                    <label for="text">Testo:</label>
+                    <textarea class="form-control" id="text" rows=8 name="content" placeholder="scrivi qui il tuo articolo..." required></textarea>
+                </div>
+                {{-- questo campo serve per la selezione del file immagine, l'attributo 'type' dell'<input> è "file" --}}
+                <div class="form-group">
+                    <label for="cover_image_file">Immagine di copertina:</label>
+                    <input type="file" class="form-control-file" id="cover_image_file" name="cover_image_file">
                 </div>
                 <button type="submit" class="btn btn-success">Crea</button>
                 <button type="reset" class="btn btn-warning">Reset</button>

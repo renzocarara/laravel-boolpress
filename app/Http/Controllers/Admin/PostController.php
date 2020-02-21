@@ -7,8 +7,10 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Post;
 
-// aggiungo questa use per poter usare la funzione str()
+// aggiungo questa 'use' per poter usare la funzione str()
 use Illuminate\Support\Str;
+// aggiungo questa 'use' per poter usare la funzione Storage()
+use Illuminate\Support\Facades\Storage;
 
 
 class PostController extends Controller
@@ -51,16 +53,87 @@ class PostController extends Controller
         // l'utente può vedere, è solo uno script che serve per scrivere nel DB i dati inseriti dall'utente,
         // dopodichè viene fatta una REDIRECT verso la rotta 'admin.posts.index' (view principale)
 
+        // NOTA: dal form della view 'create', mi arriva un array associativo dove le varie chiavi
+        // indirizzano i vari campi del form tra cui "cover_image_file" che è il file selezionato
+        // dall'utente.
+        //
+        // Il file selezionato dall'utente mi arriva come
+        // un oggetto di tipo 'UplodedFile' (è un 'oggettone' gestito da Laravel)
+        //
+        // Qui sotto il dettaglio di un'istruzione: dd($form_data_received):
+        //
+        // array:5 [▼
+        //   "_token" => "OBG6TgnlTTDXp80wRq7HswvU2oWy4a0aAUBAMXud"
+        //   "title" => "titolo di prova"
+        //   "author" => "Pincopallino"
+        //   "content" => "lorem ipsum bla bla bla..."
+        //   "cover_image_file" => Illuminate\Http\UploadedFile {#370 ▼
+        //     -test: false
+        //     -originalName: "moon.jpeg"
+        //     -mimeType: "image/jpeg"
+        //     -error: 0
+        //     #hashName: null
+        //     path: "C:\Users\renzo\AppData\Local\Temp"
+        //     filename: "php4F8B.tmp"
+        //     basename: "php4F8B.tmp"
+        //     pathname: "C:\Users\renzo\AppData\Local\Temp\php4F8B.tmp"
+        //     extension: "tmp"
+        //     realPath: "C:\Users\renzo\AppData\Local\Temp\php4F8B.tmp"
+        //     aTime: 2020-02-21 19:14:03
+        //     mTime: 2020-02-21 19:14:03
+        //     cTime: 2020-02-21 19:14:03
+        //     inode: 0
+        //     size: 155502
+        //     perms: 0100666
+        //     owner: 0
+        //     group: 0
+        //     type: "file"
+        //     writable: true
+        //     readable: true
+        //     executable: false
+        //     file: true
+        //     dir: false
+        //     link: false
+        //     linkTarget: "C:\Users\renzo\AppData\Local\Temp\php4F8B.tmp"
+        //   }
+        // ]
+
+
         // metto i dati ricevuti tramite il parametro $request in una variabile
         $form_data_received=$request->all();
-
         // creo un nuovo oggetto di classe Post, da scrivere poi nel DB
         $new_post = new Post();
-
-        // valorizzo il nuovo oggetto con i dati ricevuti (ad eccezione dello 'slug' che devo calcolarlo io)
+        // valorizzo il nuovo oggetto con i dati ricevuti (ad eccezione dello 'slug' che devo calcolarlo io
+        // e del percorso del file immagine, che lo tratto separatamente)
         $new_post->fill($form_data_received);
 
-        // calcolo uno slug univoco, verificando se già esiste quello che volgio scrivere
+        // ----------------------------- GESTIONE FILEs -------------------------------------
+        // si compone sinteticamente di 3 steps:
+        // 1. l'utente seleziona un file tramite l'apposito campo del form
+        // 2. recupero il path di questo file e lo passo ad una funzione 'put' che ne fa una copia in una cartella ('uploads')
+        // della mia applicazione e in più mi restituise il percorso di dove ha messo questa copia
+        // 3. salvo nel DB, nell'apposita colonna che ho creato (cover_image), il percorso del file
+        //
+        // verifico che l'elemento 'cover_image_file' ricevuto dal form non sia vuoto
+        // accedo all'array con la chiave associativa ('cover_image_file') che identifica quell'elemento
+        // è l'attributo 'name' del tag <input> del form che ha ricevuto il npme del file selezionato dall'utente
+        if(!empty($form_data_received['cover_image_file'])) {
+            // estraggo il percorso del file selezionato dall'utente tramite il form della view 'create'
+            $cover_image = $form_data_received['cover_image_file'];
+            // la cartella 'upload', la creo io e conterrà i files che carica l'utente, verrà creata sotto storage\app\public\
+            // passo alla funzione 'put' 2 parametri:
+            // la cartella ('uploads') dove mettere il file  il percorso ('$cover_image') da dove prendere il file
+            // la 'put', oltre a fare la copia  del file, mi restituisce il path di dove ha salvato il file, salverò questo path nel DB
+            $cover_image_path = Storage::put('uploads', $cover_image);
+
+            // inserico nell'oggetto $new_post il path ottenuto, poi dopo l'oggetto $new_post lo salvo nel DB
+            $new_post->cover_image = $cover_image_path;
+        }
+        // ------------------------------ GESTIONE FILEs -------------------------------------
+
+
+        // ------------------------------ GESTIONE SLUG -------------------------------------
+        // calcolo uno slug univoco, verificando se già esiste quello che voglio scrivere
         // ricavo lo slug teorico che dovrei scrivere, in base al titolo del post
         $slug_from_title = Str::slug($form_data_received['title']);
         // mi salvo lo slug 'potenziale' in una variabile
@@ -84,6 +157,7 @@ class PostController extends Controller
             // se quello appena creato esiste già nel DB
             $slug_write_attempts++;
         }
+        // ------------------------------ GESTIONE SLUG -------------------------------------
 
         // scrivo il mio slug UNIVOCO nell'oggetto da salvare nel DB
         $new_post->slug = $slug_to_be_written;
@@ -91,7 +165,7 @@ class PostController extends Controller
         // alla fine scrivo il nuovo oggetto nel DB
         $new_post->save();
 
-        // faccio una REDIRECT vetso la rotta 'index'
+        // faccio una REDIRECT veRso la rotta 'index'
         return redirect() -> route('admin.posts.index');
 
     }
@@ -122,7 +196,7 @@ class PostController extends Controller
         // riceve in ingresso quello specifico post
         // il metodo riceve in ingresso l'id del post da recuperare
 
-        // $post = Post::find($id);
+        // $post = Post::find($id); // questa riga non serve perchè uso la dependency injection
         return view('admin.posts.show', ['post' => $post]);
     }
 
@@ -155,8 +229,39 @@ class PostController extends Controller
         // l'utente può vedere, è solo uno script che serve per aggiornare i dati del DB,
         // dopodichè viene fatta una REDIRECT verso la rotta 'admin.posts.index' (view principale)
 
-        // metto i dati ricevuti tramite il parametro $request in una variabile
+        // NOTA: in $post ho il record da aggiornare (che Laravel ha letto implicitamente dal DB,
+        // ricevendo in ingresso l'id del post)
+
+        // metto in una variabile i nuovi dati da scrivere, ricevuti tramite il parametro $request
         $form_data_received=$request->all();
+
+        // ----------------------------- GESTIONE FILEs -------------------------------------
+        // si compone sinteticamente di 3 steps:
+        // 1. l'utente seleziona un file tramite l'apposito campo del form
+        // 2. recupero il path di questo file e lo passo ad una funzione 'put' che ne fa una copia in una cartella ('uploads')
+        // della mia applicazione Laravel e in più mi restituise il percorso di dove ha messo questa copia
+        // 3. inserisco il nuovo path nell'oggetto che userò per fare l'update del DB
+        //
+        // verifico che il campo cover_image_file ricevuto dal form non sia vuoto
+        if(!empty($form_data_received['cover_image_file'])) {
+
+            // se il post aveva già un'immagine associata, la cancello prima di collegare quella nuova
+            if(!empty($post->cover_image)) {
+                // cancello l'immagine precedente, viene fisicamente eliminato il file dalla cartella 'uploads'
+                Storage::delete($post->cover_image);
+            }
+
+            // estraggo il percorso del file selezionato dall'utente
+            $cover_image = $form_data_received['cover_image_file'];
+            // passo alla funzione 'put' 2 parametri:
+            // la cartella ('uploads') dove mettere il file e il percorso ('$cover_image') da dove prendere il file
+            // la 'put', oltre a fare la copia del file, mi restituisce il path di dove ha salvato il file
+            $cover_image_path = Storage::put('uploads', $cover_image);
+
+            // inserico il nuovo path fornitomi dalla funzione 'put' nell'oggetto che contiene i dati da aggiornare
+            $form_data_received['cover_image'] = $cover_image_path;
+        }
+        // ------------------------------ GESTIONE FILEs -------------------------------------
 
         // aggiorno il record nel DB referenziandolo con il parametro $post in ingresso alla funzione
         // (DEPENDANCY INJECTION: viene fatto un 'match' con l'id che ho passato al momento dell'invocazione)
@@ -179,6 +284,11 @@ class PostController extends Controller
         // verso la pagina principale
         // NOTA: anche qui come per la show(), edit(), update(), uso la DEPENDENCY INJECTION
 
+        // eseguo la cancellazione de file immagine che si trova nella cartella 'uploads'
+        $post_image = $post->cover_image;
+        Storage::delete($post_image);
+
+        // cancello il record (post) dalla tabella del DB
         $post->delete();
         return redirect()->route('admin.posts.index');
     }

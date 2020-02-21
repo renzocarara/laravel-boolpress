@@ -8,7 +8,7 @@
     <div class="row mt-4">
         <div class="col-12">
             <h1 class="d-inline-block mb-5">Post</h1>
-            {{-- <a class="btn btn-primary float-right" href="{{ route('blog', 1) }}">Blog</a> --}}
+            <a class="btn btn-primary float-right" href="{{ route('blog', 1) }}">Blog</a>
         </div>
     </div>
 
@@ -17,6 +17,12 @@
             <div class="card w-75 border-primary" style="width: 18rem;">
                 <h5 class="card-header border-primary alert-primary">Titolo: <strong>{{ $post->title }} </strong></h5>
                 <div class="card-body">
+                    {{-- verifico se il post ha un'immagine associata, se sì la visualizzo --}}
+                    @if (!empty($post->cover_image))
+                    <div class="post-image mb-4">
+                        <img class="img-fluid " src="{{ asset('storage/' . $post->cover_image) }}" class="card-img-top" alt="{{ $post->title }} - immagine del post">
+                    </div>
+                    @endif
                     <h6 class="card-subtitle mb-2">Autore: <strong>{{ $post->author }} </strong></h6>
                     <hr>
                     <p class="card-text">Contenuto: <strong>{{ $post->content }} </strong></p>

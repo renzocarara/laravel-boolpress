@@ -15,6 +15,17 @@
 
             <div class="card w-75 border-primary" style="width: 18rem;">
                 <h5 class="card-header border-primary alert-primary">Titolo: <strong>{{ $post->title }} </strong></h5>
+
+                {{-- perchè il path dell'immagine sia correttamente interpretato, devo creare un SYMLINK --}}
+                {{-- devo creare un link che parte da: 'public\storage' e punti a 'storage\app\public'
+                devo dare il seguente comando >php artisan storage:link (dalla root del mio progetto da ps) oppure
+                >mklink /J public\storage storage\app\public (dalla root del mio progetto da terminale non da ps) --}}
+
+                <div class="post-image m-3">
+                    {{-- con l'operatore ternario considero il caso in cui il file dell'immagine non venga trovato e gli do un file alternativo --}}
+                    <img class="img-fluid " src="{{ $post->cover_image ? asset('storage/' . $post->cover_image) : asset('storage/uploads/no_poster.png') }}" class="card-img-top" alt="{{ $post->title }} - immagine del post">
+                </div>
+
                 <div class="card-body">
                     <h6 class="card-subtitle mb-2">Autore: <strong>{{ $post->author }} </strong></h6>
                     <hr>
