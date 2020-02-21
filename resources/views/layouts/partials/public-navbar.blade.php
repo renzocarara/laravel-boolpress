@@ -19,8 +19,8 @@
             <ul class="navbar-nav ml-auto">
                 <!-- Authentication Links -->
                 <li class="nav-item">
-                    {{-- invoco la route 'blog' passandogli il parametro '0' che vuol dire inizia ad estrarre i post dalla posizione 0 (primo post) --}}
-                    <a class="nav-link {{ Route::currentRouteName() == 'blog' ? 'active' : '' }}" href="{{ route('blog', 0) }}">Blog</a>
+                    {{-- invoco la route 'blog' passandogli il parametro '1' che vuol dire pagina numero 1 --}}
+                    <a class="nav-link {{ Route::currentRouteName() == 'blog' ? 'active' : '' }}" href="{{ route('blog', 1) }}">Blog</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Chi siamo</a>
