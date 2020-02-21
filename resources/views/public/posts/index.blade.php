@@ -30,13 +30,12 @@
             <nav aria-label="Page navigation">
                 <ul class="pagination">
                     {{-- se sono sulla prima pagina disabilito il pulsante 'previous' --}}
-                    <li class="page-item {{ $extract_starting_from == 0 ? 'disabled' : '' }}">
-                        <a class="page-link border-primary" href="{{ route('blog', $extract_starting_from - $max_posts_per_page) }}">Previous</a>
+                    <li class="page-item {{ $page_num == 1 ? 'disabled' : '' }}">
+                        <a class="page-link border-primary" href="{{ route('blog', $page_num - 1) }}">Previous</a>
                     </li>
-                    {{-- se non ci sono post da visualizzare disabilito il pulsante 'next' --}}
-                    {{-- <li class="page-item {{ ($no_post_to_display == true) ? 'disabled' : '' }}"> --}}
-                    <li class="page-item {{ ($total_posts_in_DB<=$extract_starting_from+$max_posts_per_page) ? 'disabled' : '' }}">
-                        <a class="page-link border-primary" href="{{ route('blog', $extract_starting_from + $max_posts_per_page) }}">Next</a>
+                    {{-- se sono sull'ultima pagina disabilito il pulsante 'next' --}}
+                    <li class="page-item {{ ($page_num == ceil($total_posts_in_DB/$max_posts_per_page)) ? 'disabled' : '' }}">
+                        <a class="page-link border-primary" href="{{ route('blog', $page_num + 1) }}">Next</a>
                     </li>
                 </ul>
             </nav>
