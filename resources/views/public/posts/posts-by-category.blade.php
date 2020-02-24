@@ -4,7 +4,9 @@
 <div class="container">
     <div class="row mt-4">
         <div class="col-12">
-            <h1 class="d-inline-block">Lista di tutti i post della categoria: <strong><em>{{ $category->name }}</em></strong></h1>
+            <h1 class="d-inline-block mb-5">Tutti i post di categoria: <strong><em>{{ $category->name }}</em></strong> ({{$posts->count()}})</h1>
+            <a class="btn btn-primary float-right" href="{{ route('blog', 1) }}">Blog</a>
+
 
             @forelse ($posts as $post)
             <div class="alert alert-primary" role="alert">

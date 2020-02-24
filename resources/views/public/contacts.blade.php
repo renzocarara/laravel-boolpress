@@ -2,8 +2,8 @@
 
 @section('content')
 <div class="container">
-    <div class="row">
-        <div class="col-sm-12">
+    <div class="row mt-4">
+        <div class="col-12">
             <h1>Compila il form e mandaci un messaggio!</h1>
             {{-- questo form richiama una rotta che riceve in post i dati inseriti dall'utente --}}
             {{-- e tramite la funzione contactsStore() li memorizza nel DB --}}

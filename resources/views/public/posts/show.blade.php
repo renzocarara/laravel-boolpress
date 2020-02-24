@@ -27,14 +27,21 @@
                     <hr>
                     {{-- visualizzo questo campo solo se è definita una categoria per il post, altrimenti non visualizzo nulla --}}
                     {{-- accedo alla proprietà 'category' dell'oggetto $post --}}
-                    @if(!empty($post->category))
-                        <p>Categoria: <a href="{{ route('blog.category', ['slug' => $post->category->slug]) }}">{{ $post->category->name }}</a></p>
+                    {{-- @if (!empty($post->category))
+                    <p>Categoria: <a href="{{ route('blog.category', ['slug' => $post->category->slug]) }}">{{ $post->category->name }}</a></p>
+                    @endif --}}
+                    <p>Categoria:
+                        @if (!empty($post->category))
+                        <a href="{{ route('blog.category', ['slug' => $post->category->slug]) }}">{{ $post->category->name }}</a>
+                        @else
+                        -
                         @endif
-                        <hr>
-                        <p class="card-text">Contenuto: <strong>{{ $post->content }} </strong></p>
-                        <hr>
-                        <p class="card-text mb-0">Inserito il: <strong>{{ $post->created_at }}</strong></p>
-                        <p class="card-text">Ultimo aggiornamento: <strong>{{ $post->updated_at }}</strong></p>
+                    </p>
+                    <hr>
+                    <p class="card-text">Contenuto: <strong>{{ $post->content }} </strong></p>
+                    <hr>
+                    <p class="card-text mb-0">Inserito il: <strong>{{ $post->created_at }}</strong></p>
+                    <p class="card-text">Ultimo aggiornamento: <strong>{{ $post->updated_at }}</strong></p>
                 </div>
             </div>
         </div>

@@ -59,6 +59,8 @@
                      @endforelse
                  </tbody>
              </table>
+             {{-- paginazione fatta automaticamente da Laravel --}}
+             {{ $posts->links() }}
          </div>
      </div>
  </div>

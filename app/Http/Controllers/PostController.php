@@ -16,36 +16,18 @@ class PostController extends Controller
     //     return view('public.posts.index', ['posts' => $posts]);
     // }
 
-    public function index($page_num) {
-
-        // numero massimo di post da visualizzare per pagina (costante)
-        $max_posts_per_page=3;
+    public function index() {
 
         // leggo tutti i post dal DB
         $posts = Post::all();
+        $total_number_of_posts = $posts->count();
 
-        // estraggo il numero totale di posts
-        $total_posts_in_DB=$posts->count();
+        // imposto la paginazione automatica di Laravel
+        $posts = Post::paginate(5);
 
-        // in base al numero di pagina richiesta, calcolo la posizione da cui estrarre i post
-        if($page_num == 1){
-            $from = 0;
-        } else{
-            $from = ($page_num - 1) * $max_posts_per_page;
-        }
-
-        // leggo dalla posizione '$from' per '$max_post_per_page' elementi e creo una 'sub-collection'
-        $posts_in_the_page = $posts->slice($from, $max_posts_per_page);
-
-        // ritorno una view con con una collection di post da visualizzare su una singola pagina
-        // gli passo anche altri 3 parametri:
-        // - il numero di pagina per la quale ho estratto i post
-        // - il numero totale di posts nel DB
-        // - il numero massimo di post da visualizzare per una singola pagina (costante)
-        return view('public.posts.index', ['posts_in_the_page' => $posts_in_the_page,
-                                           'page_num' => $page_num,
-                                           'total_posts_in_DB' => $total_posts_in_DB,
-                                           'max_posts_per_page' => $max_posts_per_page]);
+        // ritorno una view con con una collection di post da visualizzare
+        // e il numero totale di post nel DB
+        return view('public.posts.index', ['posts' => $posts, 'total_posts' => $total_number_of_posts]);
     }
 
     public function show($slug) {
@@ -68,14 +50,14 @@ class PostController extends Controller
 
     public function postCategory($slug) {
 
-        // NOTA: nella tabella 'categories' ho 2 colonne:
-        // 'description' che è il nome per esteso della categoria
-        // 'slug' che è appunto lo slug ricavato dal nome per esteso della categoria
+        // NOTA: nella tabella 'categories' ho, tra le altre, 2 colonne:
+        // 'name' che è il nome per esteso della categoria
+        // 'slug' che è lo slug ricavato dal nome per esteso della categoria
         // questa funzione riceve in ingresso lo slug ($slug) della categoria
-        // e deve ricavare l'elenco di tutti i posts che hanno la stessa categoria
-        // identificata dallo slug ricevuto come parametro in ingresso.
+        // e deve ricavare l'elenco di tutti i posts che hanno quella categoria associata
+        // identificati dallo slug ricevuto come parametro in ingresso.
         // Poi la funzione richiama una view e le passa l'elenco di tutti i posts trovati
-        // che hanno appunto come categoria quella identificata dallo slug ricevuto in ingresso
+        // e l'oggetto categoria, quella identificata dallo slug ricevuto in ingresso
 
         // cerco nella colonna 'slug' della mia tabella 'categories', la categoria (record) con slug uguale al parametro ricevuto
         $category = Category::where('slug', $slug)->first();

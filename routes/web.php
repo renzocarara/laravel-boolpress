@@ -46,7 +46,7 @@ Route::get('/thankyou', 'HomeController@thanks')->name('public.contacts.thanks')
 // | GET|HEAD  | blog/page{num}           | blog                | App\Http\Controllers\PostController@index         |  web         |
 // +-----------+-------------------------+---------------------+----------------------------------------------------+--------------+
 // PostController pubblico (in cartella Controllers), metodo 'index' che ritorna la view 'index'
-Route::get('/blog/page/{num}', 'PostController@index')->name('blog'); // sottopagina blog pubblica che visualizza elenco posts
+Route::get('/blog', 'PostController@index')->name('blog'); // sottopagina blog pubblica che visualizza elenco posts
 
 // +-----------+-------------------------+---------------------+----------------------------------------------------+--------------+
 // | Method    | URI in barra indirizzi  | Nome della rotta    | Controller @ metodo invocato                       | Middleware   |

@@ -20,7 +20,7 @@
                 <!-- Authentication Links -->
                 <li class="nav-item">
                     {{-- invoco la route 'blog' passandogli il parametro '1' che vuol dire pagina numero 1 --}}
-                    <a class="nav-link {{ Route::currentRouteName() == 'blog' ? 'active' : '' }}" href="{{ route('blog', 1) }}">Blog</a>
+                    <a class="nav-link {{ Route::currentRouteName() == 'blog' ? 'active' : '' }}" href="{{ route('blog') }}">Blog</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Chi siamo</a>

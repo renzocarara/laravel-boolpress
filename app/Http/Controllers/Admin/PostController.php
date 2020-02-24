@@ -28,7 +28,12 @@ class PostController extends Controller
         // questo metodo recupera tutti i posts dal DB e poi ritorna una view che
         // riceve in ingresso la collection dei posts e la visualizza in pagina
 
+        // leggo tutti i post dal DB
         $posts = Post::all();
+
+        // imposto la paginazione automatica di Laravel
+        $posts = Post::paginate(6);
+
         return view('admin.posts.index', ['posts' => $posts]);
     }
 
