@@ -265,8 +265,7 @@ class PostController extends Controller
         // ------------------------------ GESTIONE FILEs -------------------------------------
 
         // aggiorno il record nel DB referenziandolo con il parametro $post in ingresso alla funzione
-        // (DEPENDANCY INJECTION: viene fatto un 'match' con l'id che ho passato al momento dell'invocazione)
-        // i campi che vengono aggiornati dalla update()
+        // (DEPENDANCY INJECTION: viene fatto un 'match' con l'id che ho passato al momento dell'invocazione
         $post->update($form_data_received);
 
         // faccio una REDIRECT vetso la rotta 'index'
