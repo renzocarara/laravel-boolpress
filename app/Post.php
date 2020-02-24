@@ -11,5 +11,17 @@ class Post extends Model
     // cioè quando utilizzo il metodo fill(), Laravel automaticamente mi copia nel mio
     // oggetto (che è poi un record) che va scritto nel DB, i campi(colonne) che
     // nella tabella del DB hanno quel nome
-    protected $fillable=['title','author','content'];
+    protected $fillable=['title', 'author', 'content', 'category_id'];
+
+
+    // definisco un metodo 'category()' che ha il nome della tabella verso la quale esiste la relazione, vado a
+    // dichiarare il tipo della relazione che questa entità (ovvero il model Post) ha con un'altra entità (ovvero model Category)
+    // il tipo di relazione è: 1 to Many (1 a molti)
+    //
+    // Questo è il lato '1' (belongsTo) della relazione '1 a molti'.
+    // Nel mio DB la relazione 1 a molti sarà rta le tabelle 'categories' e 'posts':
+    // per un record della tabella 'categories' possono essere associati molti records della tabella 'posts'
+    public function category() {
+        return $this->belongsTo('App\Category');
+    }
 }
