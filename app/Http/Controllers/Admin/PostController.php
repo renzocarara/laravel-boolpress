@@ -266,7 +266,7 @@ class PostController extends Controller
 
         // aggiorno il record nel DB referenziandolo con il parametro $post in ingresso alla funzione
         // (DEPENDANCY INJECTION: viene fatto un 'match' con l'id che ho passato al momento dell'invocazione)
-        // i campi che vengono aggiornati dalla update() sono quelli specificati come 'fillable' nel modello Post
+        // i campi che vengono aggiornati dalla update()
         $post->update($form_data_received);
 
         // faccio una REDIRECT vetso la rotta 'index'
