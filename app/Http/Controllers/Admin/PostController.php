@@ -116,14 +116,14 @@ class PostController extends Controller
         //
         // verifico che l'elemento 'cover_image_file' ricevuto dal form non sia vuoto
         // accedo all'array con la chiave associativa ('cover_image_file') che identifica quell'elemento
-        // è l'attributo 'name' del tag <input> del form che ha ricevuto il npme del file selezionato dall'utente
+        // è l'attributo 'name' del tag <input> del form che ha ricevuto il nome del file selezionato dall'utente
         if(!empty($form_data_received['cover_image_file'])) {
             // estraggo il percorso del file selezionato dall'utente tramite il form della view 'create'
             $cover_image = $form_data_received['cover_image_file'];
-            // la cartella 'upload', la creo io e conterrà i files che carica l'utente, verrà creata sotto storage\app\public\
+            // la cartella 'uploads', la creo io e conterrà i files che carica l'utente, verrà creata sotto storage\app\public\
             // passo alla funzione 'put' 2 parametri:
             // la cartella ('uploads') dove mettere il file  il percorso ('$cover_image') da dove prendere il file
-            // la 'put', oltre a fare la copia  del file, mi restituisce il path di dove ha salvato il file, salverò questo path nel DB
+            // la 'put', oltre a fare la copia  del file, mi restituisce il path di dove ha salvato il file, scriverò questo path nel DB
             $cover_image_path = Storage::put('uploads', $cover_image);
 
             // inserico nell'oggetto $new_post il path ottenuto, poi dopo l'oggetto $new_post lo salvo nel DB
@@ -142,7 +142,7 @@ class PostController extends Controller
         $slug_already_used = Post::where('slug', $slug_to_be_written)->first();
 
         // uso un contatore da concatenare al nome dello slug per renderlo univoco
-        // comincio da 1 mapotrei aver bisogno di incrementarlo più volte se lo slug
+        // comincio da 1 ma potrei aver bisogno di incrementarlo più volte se lo slug
         // che voglio scrivere già esiste nel DB
         $slug_write_attempts = 1;
 
@@ -165,7 +165,7 @@ class PostController extends Controller
         // alla fine scrivo il nuovo oggetto nel DB
         $new_post->save();
 
-        // faccio una REDIRECT veRso la rotta 'index'
+        // faccio una REDIRECT verso la rotta 'index'
         return redirect() -> route('admin.posts.index');
 
     }
@@ -209,7 +209,7 @@ class PostController extends Controller
     public function edit(Post $post)
     {
         // come per la show(), uso la DEPENDENCY INJECTION. Chiamo questo metodo
-        // passandolgi un id, ma ottengo un oggetto, che Laravel recupera automaticamente,
+        // passandogli un id, ma ottengo un oggetto, che Laravel recupera automaticamente,
         // dal DB tramite l'id che gli passo io, e lo mette nel parametro $post,
         // che poi io uso per chiamare la view
         return view('admin.posts.edit',  ['post_to_be_edited' => $post]);
@@ -259,12 +259,14 @@ class PostController extends Controller
             $cover_image_path = Storage::put('uploads', $cover_image);
 
             // inserico il nuovo path fornitomi dalla funzione 'put' nell'oggetto che contiene i dati da aggiornare
-            $form_data_received['cover_image'] = $cover_image_path;
+            // $form_data_received['cover_image'] = $cover_image_path;
+            $post->cover_image = $cover_image_path;
         }
         // ------------------------------ GESTIONE FILEs -------------------------------------
 
         // aggiorno il record nel DB referenziandolo con il parametro $post in ingresso alla funzione
         // (DEPENDANCY INJECTION: viene fatto un 'match' con l'id che ho passato al momento dell'invocazione)
+        // i campi che vengono aggiornati dalla update() sono quelli specificati come 'fillable' nel modello Post
         $post->update($form_data_received);
 
         // faccio una REDIRECT vetso la rotta 'index'
