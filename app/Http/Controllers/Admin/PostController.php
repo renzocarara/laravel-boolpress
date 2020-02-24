@@ -6,7 +6,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Post;
-// aggiungo questa use  per poter usare la all() sulla classe Category
+// aggiungo questa use  per poter usare i metodi dulla classe Category (es. all(), where(), etc)
 use App\Category;
 
 // aggiungo questa 'use' per poter usare la funzione str()

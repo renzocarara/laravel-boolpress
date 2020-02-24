@@ -12,7 +12,7 @@
 */
 // ROTTE PUBBLICHE:
 // +-----------+-------------------------+---------------------+----------------------------------------------------+--------------+
-// | Method    | URI in barra indirizzi  | Nome della rotta    | Controller e metodo invocato                       | Middleware   |
+// | Method    | URI in barra indirizzi  | Nome della rotta    | Controller @ metodo invocato                       | Middleware   |
 // +-----------+-------------------------+---------------------+----------------------------------------------------+--------------+
 // | GET|HEAD  | /                       | public.home         | App\Http\Controllers\HomeController@index          | web          |
 // +-----------+-------------------------+---------------------+----------------------------------------------------+--------------+
@@ -20,28 +20,28 @@
 Route::get('/', 'HomeController@index')->name('public.home'); // pagina iniziale pubblica
 
 // +-----------+-------------------------+----------------------+----------------------------------------------------+--------------+
-// | Method    | URI in barra indirizzi  | Nome della rotta     | Controller e metodo invocato                       | Middleware   |
+// | Method    | URI in barra indirizzi  | Nome della rotta     | Controller @ metodo invocato                       | Middleware   |
 // +-----------+-------------------------+----------------------+----------------------------------------------------+--------------+
 // | GET|HEAD  | contacts                | public.contacts.show | App\Http\Controllers\HomeController@contacts       | web
 // +-----------+-------------------------+----------------------+----------------------------------------------------+--------------+
 Route::get('/contacts', 'HomeController@contacts')->name('public.contacts.show');
 
 // +-----------+-------------------------+-----------------------+---------------------------------------------------+--------------+
-// | Method    | URI in barra indirizzi  | Nome della rotta      | Controller e metodo invocato                      | Middleware   |
+// | Method    | URI in barra indirizzi  | Nome della rotta      | Controller @ metodo invocato                      | Middleware   |
 // +-----------+-------------------------+-----------------------+---------------------------------------------------+--------------+
 // | POST      | contacts                | public.contacts.store | App\Http\Controllers\HomeController@contactsStore | web          |                                        |
 // +-----------+-------------------------+-----------------------+---------------------------------------------------+--------------+
 Route::post('/contacts', 'HomeController@contactsStore')->name('public.contacts.store');
 
 // +-----------+-------------------------+------------------------+----------------------------------------------------+--------------+
-// | Method    | URI in barra indirizzi  | Nome della rotta       | Controller e metodo invocato                       | Middleware   |
+// | Method    | URI in barra indirizzi  | Nome della rotta       | Controller @ metodo invocato                       | Middleware   |
 // +-----------+-------------------------+------------------------+----------------------------------------------------+--------------+
 // | GET|HEAD  | thankyou                | public.contacts.thanks | App\Http\Controllers\HomeController@thanks         | web          |
 // +-----------+-------------------------+------------------------+----------------------------------------------------+--------------+
 Route::get('/thankyou', 'HomeController@thanks')->name('public.contacts.thanks');
 
 // +-----------+-------------------------+---------------------+----------------------------------------------------+--------------+
-// | Method    | URI in barra indirizzi  | Nome della rotta    | Controller e metodo invocato                       | Middleware   |
+// | Method    | URI in barra indirizzi  | Nome della rotta    | Controller @ metodo invocato                       | Middleware   |
 // +-----------+-------------------------+---------------------+----------------------------------------------------+--------------+
 // | GET|HEAD  | blog/page{num}           | blog                | App\Http\Controllers\PostController@index         |  web         |
 // +-----------+-------------------------+---------------------+----------------------------------------------------+--------------+
@@ -49,15 +49,19 @@ Route::get('/thankyou', 'HomeController@thanks')->name('public.contacts.thanks')
 Route::get('/blog/page/{num}', 'PostController@index')->name('blog'); // sottopagina blog pubblica che visualizza elenco posts
 
 // +-----------+-------------------------+---------------------+----------------------------------------------------+--------------+
-// | Method    | URI in barra indirizzi  | Nome della rotta    | Controller e metodo invocato                       | Middleware   |
+// | Method    | URI in barra indirizzi  | Nome della rotta    | Controller @ metodo invocato                       | Middleware   |
 // +-----------+-------------------------+---------------------+----------------------------------------------------+--------------+
 // | GET|HEAD  | blog/{slug}             | post.show           | App\Http\Controllers\PostController@show           | web          |
 // +-----------+-------------------------+---------------------+----------------------------------------------------+--------------+
 // PostController pubblico (in cartella Controllers), metodo 'show' che ritorna la view 'show'
 Route::get('/blog/{slug}', 'PostController@show')->name('post.show'); // sottopagina pubblica che visualizza 1 singolo post
 
-// Route::get('/blog/categorie/{slug}', 'PostController@postCategoria')->name('blog.category');
-// Route::get('/blog/categories/{slug}', 'PostController@postCategory')->name('post.category');
+// +-----------+-------------------------+---------------------+----------------------------------------------------+--------------+
+// | Method    | URI in barra indirizzi  | Nome della rotta    | Controller @ metodo invocato                       | Middleware   |
+// +-----------+-------------------------+---------------------+----------------------------------------------------+--------------+
+// | GET|HEAD  | blog/categories/{slug}  | blog.category       | App\Http\Controllers\PostController@postCategory   | web          |
+// +-----------+-------------------------+---------------------+----------------------------------------------------+--------------+
+Route::get('/blog/categories/{slug}', 'PostController@postCategory')->name('blog.category');
 
 
 // ROTTE PRIVATE:
@@ -66,7 +70,7 @@ Route::get('/blog/{slug}', 'PostController@show')->name('post.show'); // sottopa
 Auth::routes(['register' => false]);
 
 // +-----------+-------------------------+---------------------+----------------------------------------------------+--------------+
-// | Method    | URI in barra indirizzi  | Nome della rotta    | Controller e metodo invocato                       | Middleware   |
+// | Method    | URI in barra indirizzi  | Nome della rotta    | Controller @ metodo invocato                       | Middleware   |
 // +-----------+-------------------------+---------------------+----------------------------------------------------+--------------+
 // | GET|HEAD  | admin                   | admin.home          | App\Http\Controllers\Admin\HomeController@index    | web,auth     |
 // | POST      | admin/posts             | admin.posts.store   | App\Http\Controllers\Admin\PostController@store    | web,auth     |

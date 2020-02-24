@@ -16,7 +16,7 @@
             {{-- il metodo show() che riceve in ingresso il parametro $slug e richiama --}}
             {{-- a sua volta la view 'show' --}}
             <div class="alert alert-primary" role="alert">
-                <a href="{{ route('post.show', [ 'slug' => $post->slug ]) }}">
+                <a href="{{ route('post.show', ['slug' => $post->slug]) }}">
                     {{ $post->title }}
                 </a>
             </div>
