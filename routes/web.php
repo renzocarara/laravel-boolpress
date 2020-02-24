@@ -51,10 +51,13 @@ Route::get('/blog/page/{num}', 'PostController@index')->name('blog'); // sottopa
 // +-----------+-------------------------+---------------------+----------------------------------------------------+--------------+
 // | Method    | URI in barra indirizzi  | Nome della rotta    | Controller e metodo invocato                       | Middleware   |
 // +-----------+-------------------------+---------------------+----------------------------------------------------+--------------+
-// | GET|HEAD  | post/{slug}             | post.show           | App\Http\Controllers\PostController@show           | web          |
+// | GET|HEAD  | blog/{slug}             | post.show           | App\Http\Controllers\PostController@show           | web          |
 // +-----------+-------------------------+---------------------+----------------------------------------------------+--------------+
 // PostController pubblico (in cartella Controllers), metodo 'show' che ritorna la view 'show'
-Route::get('/post/{slug}', 'PostController@show')->name('post.show'); // sottopagina pubblica che visualizza 1 singolo post
+Route::get('/blog/{slug}', 'PostController@show')->name('post.show'); // sottopagina pubblica che visualizza 1 singolo post
+
+// Route::get('/blog/categorie/{slug}', 'PostController@postCategoria')->name('blog.category');
+// Route::get('/blog/categories/{slug}', 'PostController@postCategory')->name('post.category');
 
 
 // ROTTE PRIVATE:

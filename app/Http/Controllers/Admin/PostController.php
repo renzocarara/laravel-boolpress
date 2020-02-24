@@ -6,11 +6,14 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Post;
+// aggiungo questa use  per poter usare la all() sulla classe Category
+use App\Category;
 
 // aggiungo questa 'use' per poter usare la funzione str()
 use Illuminate\Support\Str;
 // aggiungo questa 'use' per poter usare la funzione Storage()
 use Illuminate\Support\Facades\Storage;
+
 
 
 class PostController extends Controller
@@ -36,8 +39,10 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
-        return view('admin.posts.create');
+        // leggo tutte le categorie presenti nel DB
+        $categories = Category::all();
+        // passo alla view l'elenco delle catogorie lette dal DB
+        return view('admin.posts.create', ['categories' => $categories]);
     }
 
     /**
@@ -212,7 +217,13 @@ class PostController extends Controller
         // passandogli un id, ma ottengo un oggetto, che Laravel recupera automaticamente,
         // dal DB tramite l'id che gli passo io, e lo mette nel parametro $post,
         // che poi io uso per chiamare la view
-        return view('admin.posts.edit',  ['post_to_be_edited' => $post]);
+        // alla view inoltre passo anche l'elenco delle categorie dei post, recuperato
+        // leggendo la tabella 'categories'
+
+        // leggo tutte le categorie presenti nel DB, e poi le passo alla view che richiamo qui sotto
+        $categories = Category::all();
+
+        return view('admin.posts.edit',  ['post_to_be_edited' => $post, 'categories' => $categories]);
     }
 
     /**

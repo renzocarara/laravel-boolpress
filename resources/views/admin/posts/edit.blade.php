@@ -44,6 +44,31 @@
                     @endif
                     <input type="file" class="form-control-file mb-5" id="cover_image_file" name="cover_image_file">
                 </div>
+                <div>
+
+                    {{-- verifico che ci sia almeno 1 tipo di categoria letta dal DB --}}
+                    @if ($categories->count() > 0)
+                    <select class="form-group" name="category_id">
+                        <option value="">Seleziona la categoria</option>
+                        {{-- scorro l'elenco di tutte le categorie recuperate dalla tabella 'categories', --}}
+                        {{-- questo elenco mi è arrivato come parametro in ingresso quando ho chiamato questa view --}}
+                        @foreach ($categories as $category)
+                        {{-- popolo le <option> con le categorie ricevute in ingresso a questa view --}}
+                        {{-- nella stringa da visualizzare metto il nome della categoria --}}
+                        {{-- nell'attributo 'value' metto l'id della categoria --}}
+                        {{-- verifico con l'operatore ternario, prima di tutto se il post ha una categoria associata ($post_to_be_edited->category>0) e poi --}}
+                        {{-- se la categoria di cui sto valorizzando la option ($category->id),  --}}
+                        {{-- corrisponde alla categoria del post che sto editando ($post_to_be_edited->category->id) --}}
+                        <option value="{{ $category->id }}" {{ ($post_to_be_edited->category && ($post_to_be_edited->category->id == $category->id)) ? 'selected' : '' }}>
+                            {{ $category->name }}
+                        </option>
+                        @endforeach
+                    </select>
+                    @else
+                    <a href="#">Aggiungi la prima categoria</a>
+                    @endif
+                </div>
+
                 <button type="submit" class="btn btn-success">Aggiorna</button>
                 <button type="reset" class="btn btn-warning">Reset</button>
             </form>

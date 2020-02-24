@@ -27,9 +27,11 @@
                 </div>
 
                 <div class="card-body">
-                    <h6 class="card-subtitle mb-2">Autore: <strong>{{ $post->author }} </strong></h6>
+                    <h6 class="card-subtitle mb-2">Autore: <strong>{{ $post->author }}</strong></h6>
                     <hr>
-                    <p class="card-text">Contenuto: <strong>{{ $post->content }} </strong></p>
+                    <p class="card-text">Categoria: <strong>{{ $post->category ? $post->category->name : '-' }}</strong></p>
+                    <hr>
+                    <p class="card-text">Contenuto: <strong>{{ $post->content }}</strong></p>
                     <hr>
                     <p class="card-text">slug: <strong>{{ $post->slug }}</strong></p>
                     <p class="card-text mb-0">Inserito il: <strong>{{ $post->created_at }}</strong></p>

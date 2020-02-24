@@ -39,6 +39,29 @@
                     <label for="cover_image_file">Immagine di copertina:</label>
                     <input type="file" class="form-control-file" id="cover_image_file" name="cover_image_file">
                 </div>
+
+                <div>
+                    {{-- verifico che ci sia almeno 1 tipo di categoria letta dal DB --}}
+                    @if ($categories->count() > 0)
+                    {{-- name=category_id deve coincidere con il nome della colonna della tabella 'posts' --}}
+                    {{-- cosicchè poi posso sfruttare la chiamata alla fill() --}}
+                    <select class="form-group" name="category_id">
+                        <option value="">Seleziona una categoria</option> {{-- <option> visualizzata di default se non c'è ne una 'selected' --}}
+                        {{-- ciclo sull'elenco di categorie lette dal tabella 'categories' del DB --}}
+                        @foreach ($categories as $category)
+                        {{-- popolo le <option> con le categorie ricevute in ingresso a questa view --}}
+                        {{-- nel voce della option che appare a video metto il nome della categoria --}}
+                        {{-- nell'attributo 'value' metto l'id della categoria --}}
+                        <option value="{{ $category->id }}">
+                            {{ $category->name }}
+                        </option>
+                        @endforeach
+                    </select>
+                    @else
+                    <a href="#">Aggiungi la prima categoria</a>
+                    @endif
+                </div>
+
                 <button type="submit" class="btn btn-success">Crea</button>
                 <button type="reset" class="btn btn-warning">Reset</button>
             </form>
