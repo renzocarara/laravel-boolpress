@@ -29,6 +29,7 @@
                          <th>Slug</th>
                          <th>Autore</th>
                          <th>Categoria</th>
+                         <th>Tag</th>
                          <th>Azioni</th>
                      </tr>
                  </thead>
@@ -39,8 +40,16 @@
                          <td>{{ $post->title }}</td>
                          <td>{{ $post->slug }}</td>
                          <td>{{ $post->author }}</td>
-                         {{-- se non è associata una categoria al posto , visualizzo solo un trattino '-' --}}
+                         {{-- se non è associata una categoria al post, visualizzo solo un trattino '-' --}}
                          <td>{{ $post->category ? $post->category->name : '-' }}</td>
+                         <td>
+                             @forelse ($post->tags as $tag)
+                             {{ $tag->name }}{{ $loop->last ? '' : ',' }}
+                             @empty
+                             {{-- se non è associato nessun tag, visualizzo solo un trattino '-' --}}
+                             -
+                             @endforelse
+                         </td>
                          <td>
                              <a class="btn btn-dark" href="{{ route('admin.posts.show', ['post' => $post->id ]) }}">
                                  Visualizza

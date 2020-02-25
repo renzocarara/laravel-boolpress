@@ -33,7 +33,7 @@ class PostController extends Controller
         $posts = Post::all();
 
         // imposto la paginazione automatica di Laravel
-        $posts = Post::paginate(6);
+        $posts = Post::paginate(4);
 
         return view('admin.posts.index', ['posts' => $posts]);
     }
@@ -363,8 +363,8 @@ class PostController extends Controller
         }
         // siccome i 'tags' sono legati con una relazione ai 'posts'
         // per poter cancellare un post devo prima 'sciogliere' questa relazione
-        // la relazione nel DB è definita con un CONSTRAINT di tipo "RESTRICT"
-        // (e non "CASCADE") quindi se provassi a cancellare un post con il vincolo ancora 'attivo',
+        // la relazione nel DB è definita con un CONSTRAINT di tipo "ON DELETE: RESTRICT"
+        // (e non "ON DELETE: CASCADE") quindi se provassi a cancellare un post con il vincolo ancora 'attivo',
         // non ci riuscirei ed otterrei un errore
         // verifico se ci sono tag associati al post, nel caso li cancello
         // in questo modo ora ho sganciato il post dai tags e posso poi cancellarlo

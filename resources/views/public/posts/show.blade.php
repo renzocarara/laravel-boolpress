@@ -29,6 +29,7 @@
                     {{-- accedo alla proprietà 'category' dell'oggetto $post --}}
                     <p>Categoria:
                         @if (!empty($post->category))
+                        {{-- passo lo slug della categoria alla rotta che richiamo --}}
                         <a href="{{ route('blog.category', ['slug' => $post->category->slug]) }}">{{ $post->category->name }}</a>
                         @else
                         -
@@ -39,9 +40,10 @@
                     <p>Tags:
                         {{-- ciclo i tags associati al post (possono esserci più tag associati ad 1 post) --}}
                         @foreach ($post->tags as $tag)
-                        {{-- rendo il nome del tag cliccabile, se l'utente ci clicca, presento l'elenco dei post --}}
-                        {{-- Che hanno quello specifico tag associato  --}}
-                        {{-- uso la variabile $loop->last per sapere quando sono all'ultima iterazione e non aggiungere, in questo caso, la virgola --}}
+                        {{-- rendo il nome del tag cliccabile, se l'utente ci clicca, viene richiamata una rotta e quindi una view che presenterà
+                         l'elenco dei post che hanno quello specifico tag associato  --}}
+                        {{-- alla rotta passo come parametro lo slug del tag --}}
+                        {{-- nel ternario uso la variabile $loop->last per sapere quando sono all'ultima iterazione e non aggiungere, in questo caso, la virgola --}}
                         <a href="{{ route('blog.tag', ['slug' => $tag->slug]) }}">{{ $tag->name }}</a>{{ $loop->last ? '' : ', ' }}
                         @endforeach
                     </p>
