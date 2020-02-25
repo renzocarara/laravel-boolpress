@@ -115,12 +115,14 @@ class PostController extends Controller
         // ]
 
         // ----------------------------- VALIDAZIONE DATI -------------------------------------
-        // $request->validate([
-        //     'title' => 'required|max:255',
-        //     'author' => 'required|max:255',
-        //     'content' => 'required',
-        //     'cover_image_file' => 'image'
-        // ]);
+        // questi sono tutti i dati che mi arrivano, sui quali applico delle regole di validazione
+        // in base anche a quello che ho definito nel mio DB
+        $request->validate([
+            'title' => 'required|max:255', // richiesto e massimo lungo 255caratteri
+            'author' => 'required|max:255', // richiesto e massimo lungo 255caratteri
+            'content' => 'required', // richiesto
+            'cover_image_file' => 'image' // deve essere una file di immagine
+        ]);
         // ----------------------------- VALIDAZIONE DATI -------------------------------------
 
 
@@ -282,6 +284,18 @@ class PostController extends Controller
 
         // NOTA: in $post ho il record da aggiornare (che Laravel ha letto implicitamente dal DB,
         // ricevendo in ingresso l'id del post)
+
+        // ----------------------------- VALIDAZIONE DATI -------------------------------------
+        // questi sono tutti i dati che mi arrivano, sui quali applico delle regole di validazione
+        // in base anche a quello che ho definito nel mio DB
+        $request->validate([
+            'title' => 'required|max:255', // richiesto e massimo lungo 255caratteri
+            'author' => 'required|max:255', // richiesto e massimo lungo 255caratteri
+            'content' => 'required', // richiesto
+            'cover_image_file' => 'image' // deve essere una file di immagine
+        ]);
+        // ----------------------------- VALIDAZIONE DATI -------------------------------------
+
 
         // metto in una variabile i nuovi dati da scrivere, ricevuti tramite il parametro $request
         $form_data_received=$request->all();
