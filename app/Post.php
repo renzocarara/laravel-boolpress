@@ -19,9 +19,18 @@ class Post extends Model
     // il tipo di relazione è: 1 to Many (1 a molti)
     //
     // Questo è il lato '1' (belongsTo) della relazione '1 a molti'.
-    // Nel mio DB la relazione 1 a molti sarà rta le tabelle 'categories' e 'posts':
+    // Nel mio DB la relazione 1 a molti sarà tra le tabelle 'categories' e 'posts':
     // per un record della tabella 'categories' possono essere associati molti records della tabella 'posts'
     public function category() {
         return $this->belongsTo('App\Category');
+    }
+
+    // dichiaro una relazione 'a molti' verso il model Tag
+    // c'è una relazione molti a molti tra i model Post e Tag
+    // non c'è una tabella che 'comanda' e una che è 'dipendente' come nelle relazioni '1 a molti',
+    // in entrambi i Model uso il metodo "belongsToMany"
+
+    public function tags() {
+        return $this->belongsToMany('App\Tag');
     }
 }

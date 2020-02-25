@@ -44,8 +44,8 @@
                     @endif
                     <input type="file" class="form-control-file mb-5" id="cover_image_file" name="cover_image_file">
                 </div>
-                <div>
 
+                <div>
                     {{-- verifico che ci sia almeno 1 tipo di categoria letta dal DB --}}
                     @if ($categories->count() > 0)
                     <select class="form-group" name="category_id">
@@ -67,6 +67,21 @@
                     @else
                     <a href="#">Aggiungi la prima categoria</a>
                     @endif
+                </div>
+
+                <div class="">
+                    @if($tags->count() > 0)
+                        <p>Seleziona i tags per questo post:</p>
+                        @foreach ($tags as $tag)
+                        <label for="tag_{{ $tag->id }}">
+                            <input id="tag_{{ $tag->id }}" type="checkbox" {{-- @if($errors->any()) --}} {{ $tag->id }} {{-- {{ in_array($tag->id, old('tag_id', array())) ? 'checked' : '' }} --}} {{-- @else --}}
+                                {{-- la funzione contains() verifica se nei tag associati a questo post (cioè nella collection: $post_to_be_edited->tags)  --}}
+                                {{-- è contenuto il tag che sto ciclando in questo momento (col foreach sto ciclando l'elenco completo letto da DB di tutti i tipi di tag ) --}} {{($post_to_be_edited->tags)->contains($tag) ? 'checked' : '' }}
+                                {{-- se sì, aggiungo 'checked' e il tag verrà visualizzato come 'checkato', altrimenti non aggiungo niente--}} {{-- @endif --}} name="tag_id[]" value="{{ $tag->id }}">
+                            {{ $tag->name }}
+                        </label>
+                        @endforeach
+                        @endif
                 </div>
 
                 <button type="submit" class="btn btn-success">Aggiorna</button>

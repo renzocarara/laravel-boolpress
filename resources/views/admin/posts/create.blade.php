@@ -17,7 +17,7 @@
             {{-- ma è solo del codice che elabora i dati del form e crea un oggetto Post da scrivere nel DB --}}
 
             {{-- NOTA: perchè il form possa gestire anche i file bisogna aggiungere questo attributo:
-                 enctype="multipart-form-data" --}}
+                 enctype="multipart/form-data" --}}
             <form class="w-100" enctype="multipart/form-data" method="post" action="{{ route('admin.posts.store') }}">
 
                 @csrf
@@ -26,14 +26,17 @@
                     <label for="title">Titolo:</label>
                     <input type="text" class="form-control" id="title" name="title" placeholder="titolo del post" required>
                 </div>
+
                 <div class="form-group">
                     <label for="author">Autore:</label>
                     <input type="text" class="form-control" id="author" name="author" placeholder="nome dell'autore" required>
                 </div>
+
                 <div class="form-group">
                     <label for="text">Testo:</label>
                     <textarea class="form-control" id="text" rows=8 name="content" placeholder="scrivi qui il tuo articolo..." required></textarea>
                 </div>
+
                 {{-- questo campo serve per la selezione del file immagine, l'attributo 'type' dell'<input> è "file" --}}
                 <div class="form-group">
                     <label for="cover_image_file">Immagine di copertina:</label>
@@ -58,8 +61,29 @@
                         @endforeach
                     </select>
                     @else
+                    {{-- non ci sono categorie nella tabella 'categories' del DB, --}}
+                    {{-- bisognerebbe predisporre una pagina per permettere all'utente di crearne --}}
                     <a href="#">Aggiungi la prima categoria</a>
                     @endif
+                </div>
+
+                <div class="mb-5">
+                    @if($tags->count() > 0)
+                        <p>Seleziona i tags per questo post:</p>
+                        {{-- scorro tutti i tags letti dalla tabella 'tags' nel DB --}}
+                        @foreach ($tags as $tag)
+                        {{-- nell'attributo 'for' metto l'id del tag input, l'id lo costruisco concatenando la stringa "tag_" all'id del tag letto dal DB --}}
+                        {{-- in questo modo la label è associata a quel tag input e sarà anche lei "cliccabile" per checkare la checkbox--}}
+                        {{-- ovviamente l'utente può checkare più di un valore --}}
+                        {{-- nell'attributo 'name' ci metto un array che mi raccoglierà i valori 'checkati' dall'utente --}}
+                        {{-- <input id="tag_{{ $tag->id }}" type="checkbox" name="tag_id[]" value="{{ $tag->id }}" {{ in_array($tag->id, old('tag_id')) ? 'checked' : '' }}> --}}
+                        <input id="tag_{{ $tag->id }}" type="checkbox" name="tag_id[]" value="{{ $tag->id }}" {{ $tag->id }}>
+                        {{-- la label è quella che mi appare accanto al quadratino da checkare --}}
+                        <label class="mr-2" for="tag_{{ $tag->id }}">
+                            {{ $tag->name }}
+                        </label>
+                        @endforeach
+                        @endif
                 </div>
 
                 <button type="submit" class="btn btn-success">Crea</button>

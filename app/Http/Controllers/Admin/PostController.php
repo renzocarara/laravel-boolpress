@@ -6,8 +6,9 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Post;
-// aggiungo questa use  per poter usare i metodi dulla classe Category (es. all(), where(), etc)
+// aggiungo queste 'use' per far vedere le classi a questo controller
 use App\Category;
+use App\Tag;
 
 // aggiungo questa 'use' per poter usare la funzione str()
 use Illuminate\Support\Str;
@@ -46,8 +47,13 @@ class PostController extends Controller
     {
         // leggo tutte le categorie presenti nel DB
         $categories = Category::all();
+
+        // leggo tutte i tipi di tag presenti nel DB
+        $tags = Tag::all();
+
+
         // passo alla view l'elenco delle catogorie lette dal DB
-        return view('admin.posts.create', ['categories' => $categories]);
+        return view('admin.posts.create', ['categories' => $categories, 'tags' => $tags]);
     }
 
     /**
@@ -108,6 +114,15 @@ class PostController extends Controller
         //   }
         // ]
 
+        // ----------------------------- VALIDAZIONE DATI -------------------------------------
+        // $request->validate([
+        //     'title' => 'required|max:255',
+        //     'author' => 'required|max:255',
+        //     'content' => 'required',
+        //     'cover_image_file' => 'image'
+        // ]);
+        // ----------------------------- VALIDAZIONE DATI -------------------------------------
+
 
         // metto i dati ricevuti tramite il parametro $request in una variabile
         $form_data_received=$request->all();
@@ -116,6 +131,7 @@ class PostController extends Controller
         // valorizzo il nuovo oggetto con i dati ricevuti (ad eccezione dello 'slug' che devo calcolarlo io
         // e del percorso del file immagine, che lo tratto separatamente)
         $new_post->fill($form_data_received);
+
 
         // ----------------------------- GESTIONE FILEs -------------------------------------
         // si compone sinteticamente di 3 steps:
@@ -169,15 +185,29 @@ class PostController extends Controller
         }
         // ------------------------------ GESTIONE SLUG -------------------------------------
 
+
         // scrivo il mio slug UNIVOCO nell'oggetto da salvare nel DB
         $new_post->slug = $slug_to_be_written;
 
         // alla fine scrivo il nuovo oggetto nel DB
         $new_post->save();
 
+
+        // ------------------------------ GESTIONE TAGs -------------------------------------
+        // verifico se sono stati selezionati dei tags, nel caso li assegno al post e scrivo nel DB
+        // tag_id è l'array che ho usato nel form e che deve contenere i tags checkati dall'utente
+        // (l'utente potrebbe anche non selezionarne alcuno ovviamente...)
+        if(!empty($form_data_received['tag_id'])) {
+            // scrivo i tags del post ($new_post->tags()) chiamando la sync()
+            // la sync() prende in input un array di tags e fa una 'sincronizzazione'
+            // la sync() aggiunge al post i tags che trova nell'array che gli passo e rimuove tutti gli altri
+            $new_post->tags()->sync($form_data_received['tag_id']);
+        }
+        // ------------------------------ GESTIONE TAGs -------------------------------------
+
+
         // faccio una REDIRECT verso la rotta 'index'
         return redirect() -> route('admin.posts.index');
-
     }
 
     /**
@@ -223,12 +253,17 @@ class PostController extends Controller
         // dal DB tramite l'id che gli passo io, e lo mette nel parametro $post,
         // che poi io uso per chiamare la view
         // alla view inoltre passo anche l'elenco delle categorie dei post, recuperato
-        // leggendo la tabella 'categories'
+        // leggendo la tabella 'categories' e l'elenco dei tags recuperato dalla tabella 'tags'
 
         // leggo tutte le categorie presenti nel DB, e poi le passo alla view che richiamo qui sotto
         $categories = Category::all();
+        // leggo tutte i tipi di tag presenti nel DB, e poi le passo alla view che richiamo qui sotto
+        $tags = Tag::all();
 
-        return view('admin.posts.edit',  ['post_to_be_edited' => $post, 'categories' => $categories]);
+        return view('admin.posts.edit',  [
+         'post_to_be_edited' => $post,
+         'categories' => $categories,
+         'tags' => $tags]);
     }
 
     /**
@@ -282,7 +317,24 @@ class PostController extends Controller
 
         // aggiorno il record nel DB referenziandolo con il parametro $post in ingresso alla funzione
         // (DEPENDANCY INJECTION: viene fatto un 'match' con l'id che ho passato al momento dell'invocazione
+        // NOTA: l'update() lavora solo sui dati dichiarati "fillable"
         $post->update($form_data_received);
+
+        // aggiorno i tags nel DB
+        // tag_id è l'array che ho usato nel form e che deve contenere i tags checkati dall'utente
+        // (l'utente potrebbe anche non selezionarne alcuno ovviamente...)
+        // se così fosse nella collection che mi arriva, la chiave tag_id non sarebbe definita
+         // if(!empty($form_data_received['tag_id'])) {
+         if(isset($form_data_received['tag_id'])) {
+            // aggiorno i tags del post ($post->tags()) chiamando la sync()
+            // la sync() prende in input un array di tags e fa una 'sincronizzazione'
+            // la sync() aggiunge al post i tags che trova nell'array che gli passo e rimuove tutti gli altri
+            $post->tags()->sync($form_data_received['tag_id']);
+        } else {
+            // la chiave 'tag_id' non è definita nella collection di dati che mi è arrivata'
+            // assumo che non ci siano tags da ssociare al post, passo alla sync() un array vuoto
+            $post->tags()->sync([]);
+        }
 
         // faccio una REDIRECT vetso la rotta 'index'
         return redirect() -> route('admin.posts.index');
@@ -303,7 +355,23 @@ class PostController extends Controller
 
         // eseguo la cancellazione de file immagine che si trova nella cartella 'uploads'
         $post_image = $post->cover_image;
-        Storage::delete($post_image);
+
+        // verifico se c'è un'immagine associata al post
+        if(!empty($post_image)) {
+            // elimino l'immagine associata, viene fisicamente eliminato il file dalla cartella 'uploads'
+            Storage::delete($post_image);
+        }
+        // siccome i 'tags' sono legati con una relazione ai 'posts'
+        // per poter cancellare un post devo prima 'sciogliere' questa relazione
+        // la relazione nel DB è definita con un CONSTRAINT di tipo "RESTRICT"
+        // (e non "CASCADE") quindi se provassi a cancellare un post con il vincolo ancora 'attivo',
+        // non ci riuscirei ed otterrei un errore
+        // verifico se ci sono tag associati al post, nel caso li cancello
+        // in questo modo ora ho sganciato il post dai tags e posso poi cancellarlo
+        if($post->tags->isNotEmpty()) {
+            // cancello i tag associati passando alla sync un array vuoto
+            $post->tags()->sync([]);
+        }
 
         // cancello il record (post) dalla tabella del DB
         $post->delete();

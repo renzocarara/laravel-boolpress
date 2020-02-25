@@ -63,6 +63,14 @@ Route::get('/blog/{slug}', 'PostController@show')->name('post.show'); // sottopa
 // +-----------+-------------------------+---------------------+----------------------------------------------------+--------------+
 Route::get('/blog/categories/{slug}', 'PostController@postCategory')->name('blog.category');
 
+// +-----------+-------------------------+---------------------+----------------------------------------------------+--------------+
+// | Method    | URI in barra indirizzi  | Nome della rotta    | Controller @ metodo invocato                       | Middleware   |
+// +-----------+-------------------------+---------------------+----------------------------------------------------+--------------+
+// | GET|HEAD  | blog/tag/{slug}         | blog.tag            | App\Http\Controllers\PostController@postTag        | web          |
+// +-----------+-------------------------+---------------------+----------------------------------------------------+--------------+
+Route::get('/blog/tag/{slug}', 'PostController@postTag')->name('blog.tag');
+
+
 
 // ROTTE PRIVATE:
 // specifico che le rotte per la registrazione non devono essere generate

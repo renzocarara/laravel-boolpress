@@ -3,3 +3,9 @@
         height: 100px;
     }
 }
+// checkbox e relative label
+
+input[id^="tag_"],
+label[for^="tag_"] {
+    cursor: pointer;
+}

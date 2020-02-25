@@ -9,13 +9,6 @@ use App\Category;
 
 class PostController extends Controller
 {
-    // public function index() {
-    //     // leggo tutti i post dal DB
-    //     $posts = Post::all();
-    //     // ritorna una view con l'elenco di tutti i post
-    //     return view('public.posts.index', ['posts' => $posts]);
-    // }
-
     public function index() {
 
         // leggo tutti i post dal DB

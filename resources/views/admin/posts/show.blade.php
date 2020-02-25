@@ -31,6 +31,16 @@
                     <hr>
                     <p class="card-text">Categoria: <strong>{{ $post->category ? $post->category->name : '-' }}</strong></p>
                     <hr>
+                    <p class="card-text">Tags:
+                        {{-- ciclo i tags associati al post (possono esserci più tag associati ad 1 post) --}}
+                        @forelse ($post->tags as $tag)
+                        {{-- uso la variabile $loop->last per sapere quando sono all'ultima iterazione e non aggiungere, in questo caso, la virgola --}}
+                        <strong>{{ $tag->name }}{{ $loop->last ? '' : ',' }}</strong>
+                        @empty
+                        -
+                        @endforelse
+                    </p>
+                    <hr>
                     <p class="card-text">Contenuto: <strong>{{ $post->content }}</strong></p>
                     <hr>
                     <p class="card-text">slug: <strong>{{ $post->slug }}</strong></p>
