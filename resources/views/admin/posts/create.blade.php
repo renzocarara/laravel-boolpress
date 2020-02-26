@@ -65,8 +65,20 @@
                         {{-- popolo le <option> con le categorie ricevute in ingresso a questa view --}}
                         {{-- nel voce della option che appare a video metto il nome della categoria --}}
                         {{-- nell'attributo 'value' metto l'id della categoria --}}
-                        {{-- nel ternario verifico se la categoria impostata dall'utente è quella che sto ciclando adesso,
-                        nel caso lo marco come "selected" --}}
+
+                        {{--  ---------------- VALIDAZIONE DATI - GESTIONE ERRORI ------------------------------- --}}
+                        {{-- PREMESSA: se l'utente ha inserito dei dati non validi, al submit l'elaborazione del form non procede e
+                        la pagina viene ricaricata. Bisogna capire cosa far vedere all'utente. In generale se aveva valorizzato
+                        dei campi del form, al ricaricamento bisogna ripresentargli quei valori che aveva inserito.
+                        Laravel ci mette  disposizione la funzione "old()" che, dopo il ricaricamento della pagina,
+                        ci fornisce, per ogni campo del form, il valore che l'utente aveva precedentemente inserito.
+                        con old('attributo_name_del_campo_del_form') abbiamo a disposizione quel valore.
+                        alla old() posso passare anche un secondo parametro, è un valore che viene usato come default nel caso in cui
+                        non sia presente un valore "old" per quel campo, cioè l'utente non aveva valorizzato il campo  --}}
+
+                        {{-- nel ternario verifico se la categoria checkata precedentemente dall'utente è proprio quella che sto ciclando adesso,
+                        nel caso la marco come "selected" in modo che appaia 'checkata' --}}
+                        {{--  ---------------- VALIDAZIONE DATI - GESTIONE ERRORI ------------------------------- --}}
                         <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>
                             {{ $category->name }}
                         </option>
@@ -74,7 +86,7 @@
                     </select>
                     @else
                     {{-- non ci sono categorie nella tabella 'categories' del DB, --}}
-                    {{-- bisognerebbe predisporre una pagina per permettere all'utente di crearne --}}
+                    {{-- bisognerebbe predisporre una pagina, lato admin, per permettere all'utente di crearne --}}
                     <a href="#">Aggiungi la prima categoria</a>
                     @endif
                 </div>
@@ -84,16 +96,22 @@
                     <p>Seleziona i tags per questo post:</p>
                     {{-- scorro tutti i tags letti dalla tabella 'tags' nel DB --}}
                     @foreach ($tags as $tag)
-                    {{-- nell'attributo 'for' della label metto l'id del tag input, l'id lo costruisco concatenando la stringa "tag_" all'id del tag letto dal DB --}}
-                    {{-- in questo modo la label è associata a quel tag input e sarà anche lei "cliccabile" per checkare la checkbox--}}
-                    {{-- ovviamente l'utente può checkare più di un valore --}}
+                    {{-- NOTA BANALE: la label è quella che mi appare accanto al quadratino da checkare! --}}
+
+                    {{-- nell'attributo 'for' della label metto l'id di <input>, l'id lo costruisco concatenando la stringa "tag_" all'id del tag letto dal DB --}}
+                    {{-- in questo modo la label è associata a quell'<input> e sarà anche lei "cliccabile" per checkare la checkbox--}}
+                    {{-- ovviamente l'utente può checkare più di una singola checkbox --}}
                     {{-- nell'attributo 'name' ci metto un array che mi raccoglierà i valori 'checkati' dall'utente --}}
-                    {{-- nel ternario verifico se nell'array che contiene le selezioni fatte dall'utente c'è il tag che sto ciclando/visualizzando adesso,
-                    nel caso lo marco come "checked" --}}
-                    {{-- la label è quella che mi appare accanto al quadratino da checkare --}}
+
+                    {{--  ---------------- VALIDAZIONE DATI - GESTIONE ERRORI ------------------------------- --}}
+                    {{-- qui è valida la stessa PREMESSA fatta più sopra per l'input della category (vedi sopra) --}}
+                    {{-- nel ternario verifico se nell'array che contiene le selezioni fatte precedentemente dall'utente c'è il tag che sto ciclando/visualizzando adesso,
+                    nel caso lo marco come "checked" in modo che appaia 'checkata' --}}
+                    {{--  ---------------- VALIDAZIONE DATI - GESTIONE ERRORI ------------------------------- --}}
 
                     <label for="tag_{{ $tag->id }}">
-                        <input id="tag_{{ $tag->id }}" type="checkbox" name="tag_id[]" value="{{ $tag->id }}" {{ in_array($tag->id, old('tag_id', array())) ? 'checked' : '' }}>
+                        <input id="tag_{{ $tag->id }}" type="checkbox" name="tag_id[]" value="{{ $tag->id }}"
+                        {{ in_array($tag->id, old('tag_id', array())) ? 'checked' : '' }}>
                         {{ $tag->name }}
                     </label>
 

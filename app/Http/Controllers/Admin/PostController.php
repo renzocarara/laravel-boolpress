@@ -29,7 +29,7 @@ class PostController extends Controller
         // questo metodo recupera tutti i posts dal DB e poi ritorna una view che
         // riceve in ingresso la collection dei posts e la visualizza in pagina
 
-        // leggo tutti i post dal DB
+        // leggo tutti i post dal DB e ottengo una collection
         $posts = Post::all();
 
         // imposto la paginazione automatica di Laravel
@@ -45,10 +45,10 @@ class PostController extends Controller
      */
     public function create()
     {
-        // leggo tutte le categorie presenti nel DB
+        // leggo tutte le categorie presenti nel DB, ottengo una collection
         $categories = Category::all();
 
-        // leggo tutte i tipi di tag presenti nel DB
+        // leggo tutte i tipi di tag presenti nel DB, ottengo una collection
         $tags = Tag::all();
 
 
@@ -126,7 +126,8 @@ class PostController extends Controller
         // ----------------------------- VALIDAZIONE DATI -------------------------------------
 
 
-        // metto i dati ricevuti tramite il parametro $request in una variabile
+        // metto i dati ricevuti (in POST) tramite il parametro $request in una variabile
+        // è un array
         $form_data_received=$request->all();
         // creo un nuovo oggetto di classe Post, da scrivere poi nel DB
         $new_post = new Post();
@@ -258,9 +259,9 @@ class PostController extends Controller
         // leggendo la tabella 'categories' e l'elenco dei tags recuperato dalla tabella 'tags'
 
         // leggo tutte le categorie presenti nel DB, e poi le passo alla view che richiamo qui sotto
-        $categories = Category::all();
+        $categories = Category::all(); // è una collection
         // leggo tutte i tipi di tag presenti nel DB, e poi le passo alla view che richiamo qui sotto
-        $tags = Tag::all();
+        $tags = Tag::all(); // è una collection
 
         return view('admin.posts.edit',  [
          'post_to_be_edited' => $post,
@@ -298,6 +299,7 @@ class PostController extends Controller
 
 
         // metto in una variabile i nuovi dati da scrivere, ricevuti tramite il parametro $request
+        // ricevo un array (è praticamente il $_POST)
         $form_data_received=$request->all();
 
         // ----------------------------- GESTIONE FILEs -------------------------------------

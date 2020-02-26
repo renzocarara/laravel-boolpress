@@ -30,7 +30,7 @@
             <form class="w-100" enctype="multipart/form-data" method="post" action="{{ route('admin.posts.update', $post_to_be_edited->id) }}">
 
                 @csrf
-                @method('PUT')
+                @method('PUT') {{-- il form prvede solo i metodi GET o  POST, con questa direttiva gli secifico che voglio PUT --}}
                 {{-- nell'attributo value mostro l'old (cioè il valore inserito dall'utente e precedente all'errore), se non c'è un valore 'old', mostro il valore originale letto dal DB --}}
                 <div class="form-group">
                     <label for="title">Titolo:</label>
@@ -51,6 +51,9 @@
                     @if ($post_to_be_edited->cover_image)
                     {{-- visualizzo l'immagine associata corrente --}}
                     <div class="post-image">
+                        {{-- asset mi indirizza nella cartella public sotto la root principale del progetto --}}
+                        {{-- in public però ho creato un symlink che mi ridirige a dove il file è effettivamente memorizzato: --}}
+                        {{-- cioè in storage\app\public\uploads --}}
                         <img class="img-fluid mb-3" src="{{ asset('storage/' . $post_to_be_edited->cover_image) }}" alt="{{ $post_to_be_edited->title }} - immagine del post">
                     </div>
                     @endif
@@ -68,12 +71,19 @@
                         {{-- popolo le <option> con le categorie ricevute in ingresso a questa view --}}
                         {{-- nella stringa da visualizzare metto il nome della categoria --}}
                         {{-- nell'attributo 'value' metto l'id della categoria --}}
-                        {{-- verifico con l'operatore ternario, prima di tutto se il post ha una categoria associata ($post_to_be_edited->category>0) e poi --}}
-                        {{-- se la categoria di cui sto valorizzando la option ($category->id),  --}}
-                        {{-- corrisponde alla categoria del post che sto editando ($post_to_be_edited->category->id) --}}
+
+
+                        {{-- verifico se l'utente aveva selezionato una voce nella 'select' --}}
                         <option @if (!empty(old('category_id')))
+                            {{-- se sì, vado a veder se questa voce selezinata precedentemente dall'utente è uguale
+                            alla voce che sto inserendo nell'elenco delle option della select
+                            se sì, la imposto come voce 'selected' in modo che appaia come voce selezionata della select --}}
                         {{ old('category_id') == $category->id ? 'selected' : '' }}
                         @else
+                            {{-- verifico se il post ha una categoria associata ($post_to_be_edited->category) e poi --}} --}}
+                            {{-- se la categoria di cui sto valorizzando la option ($category->id),  --}}
+                            {{-- corrisponde alla categoria del post da editare ($post_to_be_edited->category->id)
+                                 nel caso la visualizzo come selezionata --}}
                         {{ ($post_to_be_edited->category && ($post_to_be_edited->category->id == $category->id)) ? 'selected' : '' }}
                         @endif
                         value="{{ $category->id }}">
@@ -82,6 +92,8 @@
                         @endforeach
                     </select>
                     @else
+                        {{-- non ci sono categorie nella tabella 'categories' del DB, --}}
+                        {{-- bisognerebbe predisporre una pagina, lato admin, per permettere all'utente di crearne --}}
                     <a href="#">Aggiungi la prima categoria</a>
                     @endif
                 </div>
@@ -93,11 +105,15 @@
                         <label for="tag_{{ $tag->id }}">
                             <input id="tag_{{ $tag->id }}" type="checkbox"
                             @if($errors->any())
-                                {{ $tag->id }} {{ in_array($tag->id, old('tag_id', array())) ? 'checked' : '' }}
+                                {{-- se ci sono stati degli errori al submit, la pagina viene ricaricata,
+                                verifico se il tag che sto scrivendo/ciclando è uno di quelli che l'utente aveva checkato precedentemente,
+                                (lo faccio controllando l'array tag_id con la funzione in_array())
+                                se sì, aggiungo 'checked' in modo che appaia come checkato --}}
+                                {{ in_array($tag->id, old('tag_id', array())) ? 'checked' : '' }}
                             @else
                                 {{-- la funzione contains() verifica se nei tag associati a questo post (cioè nella collection: $post_to_be_edited->tags)  --}}
                                 {{-- è contenuto il tag che sto ciclando in questo momento (col foreach sto ciclando l'elenco completo letto da DB di tutti i tipi di tag ) --}}
-                                {{-- se sì, aggiungo 'checked' e il tag verrà visualizzato come 'checkato', altrimenti non aggiungo niente--}}
+                                {{-- se sì, aggiungo 'checked' e il tag verrà visualizzato come 'checkato', altrimenti non aggiungo niente --}}
                                 {{ ($post_to_be_edited->tags)->contains($tag) ? 'checked' : '' }}
                             @endif
                             name="tag_id[]" value="{{ $tag->id }}">
