@@ -36,4 +36,12 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    // NOTA: per il nome della funzione devo usare sempre il Camelcase
+    public function userDetail() {
+        // ho una relazione 1 a 1 con la tabella user_details (la parte dipendente che ha FK)
+        // questa è la parte che comanda
+        return $this->hasOne('App\UserDetail');
+
+    }
 }

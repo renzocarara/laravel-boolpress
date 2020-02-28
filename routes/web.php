@@ -97,4 +97,8 @@ Auth::routes(['register' => false]);
 Route::middleware('auth')->prefix('admin')->namespace('Admin')->name('admin.')->group(function() {
     Route::get('/', 'HomeController@index')->name('home'); // route principale del sito back-office
     Route::resource('/posts', 'PostController'); // routes per implementare CRUD
+    //
+    Route::get('/account', 'HomeController@account')->name('account');
+
+
 });

@@ -347,8 +347,8 @@ class PostController extends Controller
             // la sync() aggiunge al post i tags che trova nell'array che gli passo e rimuove tutti gli altri
             $post->tags()->sync($form_data_received['tag_id']);
         } else {
-            // la chiave 'tag_id' non è definita nella collection di dati che mi è arrivata'
-            // assumo che non ci siano tags da ssociare al post, passo alla sync() un array vuoto
+            // la chiave 'tag_id' non è definita nell'array di dati che mi è arrivato
+            // assumo che non ci siano tags da associare al post, passo alla sync() un array vuoto
             $post->tags()->sync([]);
         }
 
