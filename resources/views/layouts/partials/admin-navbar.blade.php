@@ -29,6 +29,7 @@
                     <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
                 </li>
                 @endif
+                {{-- utente autenticato (già loggato) --}}
                 @else
                 <li class="nav-item dropdown">
                     <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
@@ -40,10 +41,13 @@
                                              document.getElementById('logout-form').submit();">
                             {{ __('Logout') }}
                         </a>
-
                         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                             @csrf
                         </form>
+
+                        <a class="dropdown-item" href="{{ route('admin.account') }}">
+                            {{ __('account.profile') }}
+                        </a>
                     </div>
                 </li>
                 @endguest
