@@ -97,7 +97,6 @@ class PostController extends Controller
         // qui non c'e' interfaccia, non c'e' admin, non c'e' form, c'è solo un 'attore' esterno che tramite
         // API mi fa una richiesta (in questo caso una richiesta di creazione di uno nuovo post nel DB).
 
-
         // Il fatto che  la richiesta API per creare un nuovo post, necessiti di alcuni parametri obbligatori, tipo: title, author, etc
         // sono cose che devono essere specificate nella documantazione a corredo dell'API che deve essere messa a disposizione
         // di chi poi deve usare l'API (il famoso 'attore' esterno).

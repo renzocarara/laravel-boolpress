@@ -13,9 +13,9 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:api')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
 
 // tutti queste rotte vengono gestite da un controller (Postcontroller) dedicato e specifico per le API
 // creato in una cartella specifica e che si và ad affiancare ai controller della parte Pubblica e della parte Admin

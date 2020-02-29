@@ -46,7 +46,7 @@
                     <p class="card-text">slug: <strong>{{ $post->slug }}</strong></p>
                     <p class="card-text mb-0">Inserito il: <strong>{{ $post->created_at }}</strong></p>
                     <p class="card-text">Ultimo aggiornamento: <strong>{{ $post->updated_at }}</strong></p>
-                    <a class="btn btn-secondary" href="{{ route('admin.posts.edit', ['post' => $post->id]) }}" class="card-link">Modifica</a>
+                    <a class="btn btn-secondary mt-1" href="{{ route('admin.posts.edit', ['post' => $post->id]) }}" class="card-link">Modifica</a>
                     <!-- Bottone che usa un modal di Bootstrap per richiedere la conferma dell'operzione di cancellazione-->
                     {{-- NOTA: il path parte dalla cartella 'views' dove si presuppone ci siano tutte le views (cioè i files .blade.php) --}}
                     @include('admin.posts.common.delete_confirmation')
