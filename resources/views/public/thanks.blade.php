@@ -5,8 +5,8 @@
     <div class="row">
         <div class="col-12">
             <div class="mt-5 text-center">
-                <h1>Grazie per averci contattato!</h1>
-                <p>Ti risponderemo nel più breve tempo possibile.</p>
+                <h1>{{ __('email.thank_you_title') }}</h1>
+                <p>{{ __('email.thank_you_answer') }}</p>
             </div>
         </div>
     </div>

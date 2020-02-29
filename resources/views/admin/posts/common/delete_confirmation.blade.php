@@ -1,6 +1,6 @@
 <!-- Bottone che attiva un modal di Bootstrap per la conferma dell'operzione di cancellazione-->
 {{-- NOTA IMPORTANTE: per rendere univoco l'id del modal concateno al nome l'id del Post (con la stringa "_{{ $post->id }}") --}}
-<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteConfirmationModal_{{ $post->id }}">
+<button type="button" class="btn btn-danger mt-1" data-toggle="modal" data-target="#deleteConfirmationModal_{{ $post->id }}">
     Elimina
 </button>
 

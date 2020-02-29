@@ -11,8 +11,8 @@
                 <div class="card-body">
                     <h2>{{ __('messages.account_details_title')}}</h2>
                     <ul>
-                        <li>Nome: {{ $user_details->firstname }}</li>
-                        <li>Cognome: {{ $user_details->lastname }}</li>
+                        <li>{{ __('messages.firstname') }}: {{ $user_details->firstname }}</li>
+                        <li>{{ __('messages.lastname') }}: {{ $user_details->lastname }}</li>
                         <li>API token: {{ Auth::user()->api_token ?? '-'}}</li>
                     </ul>
                     {{-- <form action="{{ route('admin.token') }}" method="post">

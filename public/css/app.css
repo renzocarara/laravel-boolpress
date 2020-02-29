@@ -10893,8 +10893,13 @@ label[for^=tag_] {
   cursor: pointer;
 }
 
-table a.btn {
-  margin-bottom: 4px;
+/* bandierina associata alla lingua  */
+
+.flag {
+  width: 20px;
+  height: 15px;
+  margin-left: 10px;
+  vertical-align: text-bottom;
 }
 
 #home-welcome-wrapper {

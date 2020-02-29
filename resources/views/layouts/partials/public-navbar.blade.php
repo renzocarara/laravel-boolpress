@@ -49,6 +49,17 @@
                     </div>
                 </li>
                 @endauth
+                {{-- selezione lingua --}}
+                <ul class="nav">
+                    @foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
+                        <li class="nav-item">
+                            <a  class="nav-link" rel="alternate" hreflang="{{ $localeCode }}" href="{{ LaravelLocalization::getLocalizedURL($localeCode, null, [], true) }}">
+                                <img class="flag" src="{{ asset($properties['flag']) }}" alt="{{ $properties['native'] }} flag image">
+                            </a>
+                        </li>
+                    @endforeach
+                </ul>
+
             </ul>
         </div>
     </div>

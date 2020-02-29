@@ -51,10 +51,10 @@
                              @endforelse
                          </td>
                          <td>
-                             <a class="btn btn-dark" href="{{ route('admin.posts.show', ['post' => $post->id ]) }}">
+                             <a class="btn btn-dark mt-1" href="{{ route('admin.posts.show', ['post' => $post->id ]) }}">
                                  Visualizza
                              </a>
-                             <a class="btn btn-secondary" href="{{ route('admin.posts.edit', ['post' => $post->id ]) }}">
+                             <a class="btn btn-secondary mt-1" href="{{ route('admin.posts.edit', ['post' => $post->id ]) }}">
                                  Modifica
                              </a>
                              <!-- Bottone che usa un modal di Bootstrap per richiedere la conferma dell'operzione di cancellazione-->
