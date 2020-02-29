@@ -25,8 +25,8 @@ class PostController extends Controller
 
 
     // AUTENTICAZIONE DELLE API (In Laravel docs: Security - API Authentication)
-    // viene utilizato un token, che deve essere inviato quando viene fatta la richiesta all'API,
-    // senza cquesto API Token, il richiedente non avrà acesso alle informazioni
+    // viene utilizzato un token, che deve essere inviato quando viene fatta la richiesta all'API,
+    // senza questo API Token, il richiedente non avrà acesso alle informazioni
     // Per implementare il token devo aggiungere una colonna 'api_token' (tipo stringa di 80chars) nella tabella 'users'
     //
     // NOTA: nella cartella app\Http\Controllers\Auth file: RegisterController.php, metodo 'create()',volendo è possibile aggiungere
@@ -79,27 +79,27 @@ class PostController extends Controller
     }
 
     public function store(Request $request) {
-        // TESTING: questo metodo riceve dei dati 'in post' a differenza della index() e della show() che lvorano 'in get',
+        // TESTING: questo metodo riceve dei dati 'in post' a differenza della index() e della show() che lavorano 'in get',
         // per cui per testarla non posso farlo semplicemente scrivendo l'url nel browser,
         // ma ho bisogno di uno strumento tipo  "postman"
         // ESEMPIO DI CHIAMATA (CON METODO=POST) CREATA TRAMITE POSTMAN:
         // http://localhost:8000/api/posts/?title=le comete:cosa sono&author=Topolino&content=blah blahhhh&slug=le-comete-cosa-sono
 
         // ATTENZIONE: per mandare richieste con POSTMAN ad API che richiedono l'autenticazione, devo inserire, fra i parametri della
-        // richiesta, l'API token. Ogni utente che vuole usare le API autenticate, deve avere un suo APi token.
+        // richiesta, l'API token. Ogni utente che vuole usare le API autenticate, deve avere un suo API token.
         // Per inserirlo nella richiesta, in POSTMAN, devo selezionare la TAB: "AUTHORIZATION" e scegliere TYPE="Bearer Token" ed inserire
         // il token (stringa alfanumerica di 80chars) nel campo specifico. In alternativa posso passarglielo direttamente come parametro
         // (api_token)
 
         // Il metodo è POST, nella richiesta dovranno essere specificati i dati necessari per creare il post,
-        // cioè 'title', 'content', 'author', 'slug', e in caso (facoltativi) 'category' e 'tags'
-        // questi sono i campi che nell'interfaccia dell'admin veniva richiesti e raccolti tramite FORM,
+        // cioè 'title', 'content', 'author', 'slug',
+        // questi sono i campi che nell'interfaccia dell'admin venivano richiesti e raccolti tramite FORM,
         // qui non c'e' interfaccia, non c'e' admin, non c'e' form, c'è solo un 'attore' esterno che tramite
         // API mi fa una richiesta (in questo caso una richiesta di creazione di uno nuovo post nel DB).
 
         // Il fatto che  la richiesta API per creare un nuovo post, necessiti di alcuni parametri obbligatori, tipo: title, author, etc
         // sono cose che devono essere specificate nella documantazione a corredo dell'API che deve essere messa a disposizione
-        // di chi poi deve usare l'API (il famoso 'attore' esterno).
+        // di chi poi deve usare l'API (che sarebbe il famoso 'attore' esterno).
 
         // estraggo i dati ricevuti in post,
         $dati_post = $request->all();
@@ -122,7 +122,7 @@ class PostController extends Controller
         // TESTING:
         // ESEMPIO DI CHIAMATA (CON METODO=PUT) CREATA TRAMITE POSTMAN:
         // http://localhost:8000/api/posts/45?author=Minnie
-        // richiedo di modificare l'autore del post con id=45
+        // richiedo di modificare l'autore del post con id=45 e scrivere nel DB: author=Minnie
 
         // recupero il post che l'utente vuole modificare
         $post = Post::find($id);
@@ -131,9 +131,9 @@ class PostController extends Controller
             // ho trovato il post, leggo i dati inviati tramite api per l'aggiornamento
             $dati_post = $request->all();
             // aggiorno i dati del post scrivendo nel DB
-            // Laravel gestisce l'update() aggiornando solo i dati che (come fosse una PATCH e non PUT)
+            // Laravel gestisce l'update() aggiornando solo i dati che riceve (come fosse una PATCH e non PUT)
             $post->update($dati_post);
-            // rispondo a chi ha invocato l?API
+            // rispondo a chi ha invocato l'API
             return response()->json(
                 [
                     'success' => true, // risultato della chiamata API
@@ -193,8 +193,8 @@ class PostController extends Controller
             return response()->json(
                 [
                     'success' => false, // restiutisco 'false' nel campo 'success'
-                    'results' => [], // potrei nche ristituire %post, cioè il post che ho cancellato, è un po'  discrezione
-                                     // di solito si ritorna un array vuoto
+                    'results' => [], // potrei anche restituire $post, cioè il post che ho cancellato, non c'è un dettame preciso
+                                     // a livello di RESTFUL API, è un po' a discrezione, di solito si ritorna un array vuoto
                     'error' => 'Il post con id ' . $id . ' non esiste'
                 ]
             );
