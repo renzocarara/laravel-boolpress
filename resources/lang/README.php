@@ -80,9 +80,9 @@
 
 // TRADUZIONE DEGLI 'URI' CHE APPAIONO NELLA BARRA INDIRIZZI (QUINDI DELLE ROTTE)
 // nel file: app\Http\kernel.php è definito un array: $routeMiddleware,
-// bisogna aggiungerci almeno il middleware 'localize' della libreria che abbiamo installato precdentemente
-// (mcamara da github) (nota: la libreria ne mette a disposizione anche altri)
-// aggiungo il middleware 'localize' nel file web.php, sul gruppo delle rotte che volgio tradurre:
+// bisogna aggiungerci almeno il middleware 'localize' della libreria che abbiamo installato precedentemente
+// (Laravel Locatization) (nota: la libreria ne mette a disposizione anche altri)
+// aggiungo il middleware 'localize' nel file web.php, sul gruppo delle rotte che volglio tradurre:
 // 'middleware' => [ 'localize' ]
 // creo un file routes.php dentro ogni cartella che contiene le traduzioni (es. 'en', 'it', 'fr', etc)
 // il file è fatto così, un array associativo:
@@ -97,12 +97,12 @@
 //     'tag' => 'articoli/tag/{slug}'
 // ];
 
-// dove:
 // chiave => valore
+// dove:
 // chiave: corrisponde al parametro della transRoute() nel file delle rotte web.php
 // valore: corrisponde all'URI visualizzato nella barra indirizzi
 
-// nel file web.php sostituisco all'URI
+// nel file web.php sostituisco l'URI
 // ad esempio:
 // '/blog/tag/{slug}'
 // con:
