@@ -13,12 +13,15 @@
                     <ul>
                         <li>{{ __('messages.firstname') }}: {{ $user_details->firstname }}</li>
                         <li>{{ __('messages.lastname') }}: {{ $user_details->lastname }}</li>
+                        {{-- visualizzo il API token, se esiste --}}
                         <li>API token: {{ Auth::user()->api_token ?? '-'}}</li>
                     </ul>
-                    {{-- <form action="{{ route('admin.token') }}" method="post">
+                     {{-- questo pulsante mim serve per generare un API token per l'utente --}}
+                     {{-- utilizzando il quale può accedere con successo alle chiamate API --}}
+                    <form action="{{ route('admin.token') }}" method="post">
                         @csrf
                         <input class="btn btn-primary" type="submit" value="Richiedi api_token">
-                    </form> --}}
+                    </form>
                 </div>
             </div>
         </div>
