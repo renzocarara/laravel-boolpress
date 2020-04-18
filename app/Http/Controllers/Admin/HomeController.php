@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use App;
+use App\User;
+
 
 
 class HomeController extends Controller
@@ -18,7 +20,7 @@ class HomeController extends Controller
 
 
     public function account() {
-        App::setLocale('it');
+        // App::setLocale('it');
         // recupero l'utente corrente
         $user = Auth::user();
         // recupero i dettagli dell'utente corrente tramite la relazione uno a uno

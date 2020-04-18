@@ -18,7 +18,7 @@
 // IMPOSTARE LA LINGUA DI DEFAULT DAL CODICE
 // la lingua da usare per una determinata view può anche essere impostata direttamente nel codice,
 // (quindi nel nostro controller) dando la seguente istruzione:
-// App::setLocale($locale); // se vogliamo usare la variabile locale settata nel file app..php,
+// App::setLocale($locale); // se vogliamo usare la variabile locale settata nel file app.php,
 // oppure passando direttamente il nome della cartella da utilizzare:
 // App::setLocale('it'); // ad esempio per impostare italiano (cartella 'it')
 // (ricordarsi di aggiungere la "use App" in cima al controller per fargli 'vedere' la classe)

@@ -19,7 +19,7 @@
             <ul class="navbar-nav ml-auto">
                 <!-- Authentication Links -->
                 <li class="nav-item">
-                    {{-- invoco la route 'blog' passandogli il parametro '1' che vuol dire pagina numero 1 --}}
+                    {{-- invoco la route 'blog' --}}
                     <a class="nav-link {{ Route::currentRouteName() == 'blog' ? 'active' : '' }}" href="{{ route('blog') }}">Blog</a>
                 </li>
                 <li class="nav-item">
@@ -51,6 +51,7 @@
                 @endauth
                 {{-- selezione lingua --}}
                 <ul class="nav">
+                    {{-- vedi file config/laravellocalization.php --}}
                     @foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
                         <li class="nav-item">
                             <a  class="nav-link" rel="alternate" hreflang="{{ $localeCode }}" href="{{ LaravelLocalization::getLocalizedURL($localeCode, null, [], true) }}">

@@ -31,7 +31,7 @@ metodo che la richiama: 'index'  --}}
                     </div>
                     @endif
 
-                    Da qui, tu amministartore, puoi manipolare il DB!
+                    Da qui, tu amministratore, puoi manipolare il DB!
                 </div>
             </div>
         </div>
