@@ -11,6 +11,9 @@
                 <div class="card-body">
                     <h2>{{ __('messages.account_details_title')}}</h2>
                     <ul>
+                        {{-- NOTA: posso anche sfruttare direttamente la relazione e scrivere, --}}
+                        {{-- anzichè: $user_details->firstname --}}
+                        {{-- così: Auth::user()->userDetail->firstname --}}
                         <li>{{ __('messages.firstname') }}: {{ $user_details->firstname }}</li>
                         <li>{{ __('messages.lastname') }}: {{ $user_details->lastname }}</li>
                         {{-- visualizzo il API token, se esiste --}}
