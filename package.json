@@ -24,6 +24,7 @@
         "vue-template-compiler": "^2.6.10"
     },
     "dependencies": {
+        "node-forge": "^0.10.0",
         "serialize-javascript": "^4.0.0",
         "websocket-extensions": "^0.1.4",
         "yargs-parser": "^20.0.0"
